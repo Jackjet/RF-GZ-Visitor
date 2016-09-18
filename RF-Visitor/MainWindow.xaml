@@ -5,9 +5,10 @@
         xmlns:local="clr-namespace:RF_Visitor"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Title="道闸控制软件"
-        Width="525"
-        Height="350"
+        Width="800"
+        Height="600"
         Loaded="Window_Loaded"
+        ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
     <Window.Resources>
@@ -17,8 +18,9 @@
         </Style>
 
         <Style TargetType="Label">
-            <Setter Property="FontFamily" Value="楷体"></Setter>
-            <Setter Property="FontSize" Value="30"></Setter>
+            <Setter Property="FontFamily" Value="楷体" />
+            <Setter Property="FontSize" Value="40" />
+            <Setter Property="FontWeight" Value="Bold" />
         </Style>
     </Window.Resources>
     <Grid>
