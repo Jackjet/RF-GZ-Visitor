@@ -15,17 +15,32 @@ namespace RF_Visitor
 
         public static string BuildingID { get; set; }
 
-        public static int TypeID { get; set; }
+        public static string InComPort { get; set; }
 
-        public static string ComPort { get; set; }
+        public static string OutComPort { get; set; }
 
+        public static string OpenGateType { get; set; }
 
+        public static string GateComPort { get; set; }
+
+        public static string GateIP { get; set; }
+
+        /// <summary>
+        /// 读取配置参数
+        /// </summary>
         public static void Init()
         {
             TermID = GetKey("item_id");
             BuildingID = GetKey("building_id");
-            TypeID = GetKey("type").ToInt32();
-            ComPort = GetKey("qrcomport");
+
+            InComPort = GetKey("InComPort");
+            OutComPort = GetKey("OutComPort");
+
+            OpenGateType = GetKey("OpenGateType");
+            if (OpenGateType == "1")
+                GateComPort = GetKey("GateComPort");
+            else
+                GateIP = GetKey("GateIP");
         }
 
         private static string GetKey(string key)

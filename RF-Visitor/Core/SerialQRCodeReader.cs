@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace RF_Visitor
+namespace RF_Visitor.Core
 {
     /// <summary>
     /// 微光互联串口二维码阅读器
@@ -19,11 +19,12 @@ namespace RF_Visitor
         private List<char> _barcodeList = new List<char>();
         private Action<string> _callback;
 
+        private const int baudRate = 9600;
+
         public bool Open(string portName)
         {
             try
             {
-                var baudRate = 9600;
                 _serialPort = new SerialPort(portName, baudRate, Parity.None, 8, StopBits.One);
                 _serialPort.Open();
 
@@ -32,7 +33,7 @@ namespace RF_Visitor
             }
             catch (Exception ex)
             {
-                Log("串口打开失败：" + ex.Message);
+                Log("二维码串口打开失败->" + ex.Message);
                 return false;
             }
         }
@@ -55,9 +56,7 @@ namespace RF_Visitor
                         {
                             var barcode = new string(_barcodeList.ToArray());
                             Log(barcode);
-
                             _callback?.Invoke(barcode);
-
                             _barcodeList.Clear();
                         }
                         else
@@ -81,6 +80,7 @@ namespace RF_Visitor
         public void Dispose()
         {
             _stop = true;
+
             if (_serialPort != null)
                 _serialPort.Close();
         }

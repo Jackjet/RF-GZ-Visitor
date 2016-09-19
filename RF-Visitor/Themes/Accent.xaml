@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:RF_Visitor.Themes">
+    <Color x:Key="windowTitleColor">Black</Color>
+    <SolidColorBrush x:Key="IdealForegroundColorBrush" Color="{StaticResource windowTitleColor}" />
+
+
+    <Color x:Key="titleBackground">#123456</Color>
+    <SolidColorBrush x:Key="WindowTitleBrush" Color="{StaticResource titleBackground}" />
+</ResourceDictionary>

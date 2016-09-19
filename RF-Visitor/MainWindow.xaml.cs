@@ -1,5 +1,6 @@
 ﻿using Common;
 using Common.WebAPI;
+using RF_Visitor.Core;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -24,84 +25,45 @@ namespace RF_Visitor
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
-        const string URL = "http://test.api.visitor.rfmember.net/api/building/open_door_qrcode?content={0}&item_id={1}&building_id={2}&type={3}";
+        Core.Core vm = null;
         /// <summary>
-        /// 门禁二维码验证地址: test.api.visitor.rfmember.net/api/building/open_door_qrcode?content=二维码内容&item_id=门禁ID&building_id=大厦ID&type=类型(1:进入, 2:出去)
+        /// 
         /// </summary>
         public MainWindow()
         {
             InitializeComponent();
+            vm = new Core.Core();
+            this.DataContext = vm;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            ConfigPublic.Init();
+            //AutoRun();
+            vm.Init();
+        }
 
-            AutoRun();
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            vm.Dispose();
         }
 
         private static void AutoRun()
         {
             var appName = System.Windows.Forms.Application.ProductName;
             var executePath = System.Windows.Forms.Application.ExecutablePath;
-            Funs.runWhenStart(true, appName, executePath);
+            Funs.runWhenStart(false, appName, executePath);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void btnIn_Click(object sender, RoutedEventArgs e)
         {
-            var qrCode = "kdfhds";
-            string error = "";
-            Stopwatch sw = Stopwatch.StartNew();
-            var json = CallApi(qrCode, ref error);
-            sw.Stop();
-            Console.WriteLine("Elapsed millseconds:" + sw.ElapsedMilliseconds);
-            if (!error.IsEmpty())
-            {
-                lblResult.Content = error;
-                return;
-            }
-
-            JavaScriptSerializer serialize = new JavaScriptSerializer();
-            var result = serialize.Deserialize<RFJsonResult>(json);
-            if (result.content && result.success && result.hasError == false)
-            {
-                lblResult.Content = "请通行";
-            }
-            else
-            {
-                lblResult.Content = "授权失败，禁止通行";
-            }
+            vm.QRReaderCallback_In("123");
         }
 
-        private string CallApi(string qrcode, ref string error)
+        private void btnOut_Click(object sender, RoutedEventArgs e)
         {
-            var url = string.Format(URL,
-              qrcode,
-              ConfigPublic.TermID,
-              ConfigPublic.BuildingID,
-              ConfigPublic.TypeID);
-
-            var json = "";
-            WebRequest wr = WebRequest.Create(url);
-            try
-            {
-                var response = wr.GetResponse();
-                using (StreamReader sr = new StreamReader(response.GetResponseStream()))
-                {
-                    json = sr.ReadToEnd();
-                }
-                if (string.IsNullOrEmpty(json))
-                {
-                    error = "返回结果为空";
-                }
-            }
-            catch (Exception ex)
-            {
-                error = "API地址服务失败";
-            }
-            return json;
+            vm.QRReaderCallback_Out("456");
         }
     }
 }
