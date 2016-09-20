@@ -9,7 +9,10 @@ using Common;
 
 namespace RF_Visitor
 {
-    class ConfigPublic
+    /// <summary>
+    /// 运行配置
+    /// </summary>
+    static class ConfigPublic
     {
         public static string TermID { get; set; }
 
