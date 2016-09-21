@@ -6,11 +6,15 @@
     <!--大厦ID-->
     <add key="building_id"  value="4"/>
     <!--入串口-->
-    <add key="InComPort" value="COM1"/>
+    <add key="InComPort" value=""/>
+    <!--出串口-->
+    <add key="OutComPort" value="COM4"/>
     <!--开闸方式 1:485 2:tcp-->
     <add key="OpenGateType" value="1"/>
     <!--继电器串口-->
-    <add key="GateComPort" value="COM4"/>
+    <add key="GateComPort" value="COM3"/>
+    <!--继电器IP-->
+    <add key="GateIP" value="192.168.1.71"></add>
   </appSettings>
   <startup>
     <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5" />

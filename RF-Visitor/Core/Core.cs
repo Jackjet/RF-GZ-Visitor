@@ -6,19 +6,39 @@ using System.Threading.Tasks;
 using Common;
 using Common.Log;
 using Common.NotifyBase;
+using System.Windows.Input;
+using System.Threading;
 
 namespace RF_Visitor.Core
 {
     class Core : PropertyNotifyObject
     {
         private IGate gate = null;
+        private bool isStop = false;
         private SerialQRCodeReader readerIn = null;
         private SerialQRCodeReader readerOut = null;
 
+        const string OKImage = "yes.png";
+        const string NOImage = "no.png";
+        const string WelCome = "请刷二维码通行";
+
+        private FuncTimeout timeout = null;
         public string VerfiyMessage
         {
             get { return this.GetValue(s => s.VerfiyMessage); }
             set { this.SetValue(s => s.VerfiyMessage, value); }
+        }
+
+        public string SystemDateTime
+        {
+            get { return this.GetValue(s => s.SystemDateTime); }
+            set { this.SetValue(s => s.SystemDateTime, value); }
+        }
+
+        public string StateImage
+        {
+            get { return this.GetValue(s => s.StateImage); }
+            set { this.SetValue(s => s.StateImage, value); }
         }
 
         public void Init()
@@ -28,7 +48,16 @@ namespace RF_Visitor.Core
             InitReader();
             InitGate();
 
-            VerfiyMessage = "请刷二维码通行";
+            VerfiyMessage = WelCome;
+            timeout = new FuncTimeout();
+            Task.Factory.StartNew(() =>
+            {
+                while (!isStop)
+                {
+                    SystemDateTime = DateTime.Now.ToStandard();
+                    Thread.Sleep(1000);
+                }
+            });
         }
 
         private void InitReader()
@@ -85,12 +114,15 @@ namespace RF_Visitor.Core
             {
                 Log("入->{0}", code);
                 VerfiyMessage = "入->请通行";
+                StateImage = OKImage;
                 gate.OpenIn();
             }
             else
             {
                 VerfiyMessage = "入->未授权";
+                StateImage = NOImage;
             }
+            Welcome();
         }
 
         public void QRReaderCallback_Out(string code)
@@ -100,16 +132,29 @@ namespace RF_Visitor.Core
             {
                 Log("出->{0}", code);
                 VerfiyMessage = "出->请通行";
+                StateImage = OKImage;
                 gate.OpenOut();
             }
             else
             {
                 VerfiyMessage = "出->未授权";
+                StateImage = NOImage;
             }
+            Welcome();
+        }
+
+        private void Welcome()
+        {
+            timeout.StartOnce(2000, () =>
+            {
+                StateImage = "";
+                VerfiyMessage = WelCome;
+            });
         }
 
         public void Dispose()
         {
+            isStop = true;
             if (gate != null)
             {
                 gate.Disconnect();

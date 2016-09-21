@@ -65,5 +65,10 @@ namespace RF_Visitor
         {
             vm.QRReaderCallback_Out("456");
         }
+
+        private void Image_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Environment.Exit(0);
+        }
     }
 }
