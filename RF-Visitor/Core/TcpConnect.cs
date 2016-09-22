@@ -9,13 +9,16 @@ using System.Threading.Tasks;
 
 namespace RF_Visitor.Core
 {
+    /// <summary>
+    /// TCP继电器
+    /// </summary>
     class TcpConnect
     {
         private TcpClient tcpclient = null;
         private NetworkStream stream = null;
         private IPAddress remoteAddress = null;
 
-        private const int Port = 9877;
+        private const int Port = 9876;
 
         public bool Connect(string ip)
         {
@@ -24,6 +27,7 @@ namespace RF_Visitor.Core
                 remoteAddress = IPAddress.Parse(ip);
                 tcpclient = new TcpClient();
                 tcpclient.Connect(remoteAddress, Port);
+                stream = tcpclient.GetStream();
                 return true;
             }
             catch (Exception ex)
@@ -33,7 +37,6 @@ namespace RF_Visitor.Core
             }
         }
 
-
         public bool Connected
         {
             get
@@ -41,7 +44,10 @@ namespace RF_Visitor.Core
                 return (tcpclient != null && tcpclient.Connected);
             }
         }
-
+        /// <summary>
+        /// 发送数据
+        /// </summary>
+        /// <param name="data"></param>
         public void Send(byte[] data)
         {
             if (tcpclient.Connected)
@@ -52,7 +58,9 @@ namespace RF_Visitor.Core
                 }
             }
         }
-
+        /// <summary>
+        /// 断开网络连接
+        /// </summary>
         public void DisConnect()
         {
             if (stream != null)

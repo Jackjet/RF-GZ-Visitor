@@ -40,7 +40,7 @@ namespace RF_Visitor
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            //AutoRun();
+            AutoRun();
             vm.Init();
         }
 
