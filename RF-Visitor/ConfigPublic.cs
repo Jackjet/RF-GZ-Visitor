@@ -28,6 +28,8 @@ namespace RF_Visitor
 
         public static string GateIP { get; set; }
 
+        public static int Delay { get; set; }
+
         /// <summary>
         /// 读取配置参数
         /// </summary>
@@ -44,6 +46,10 @@ namespace RF_Visitor
                 GateComPort = GetKey("GateComPort");
             else
                 GateIP = GetKey("GateIP");
+
+            Delay = GetKey("Delay").ToInt32();
+            if (Delay == 0)
+                Delay = 5000;
         }
 
         private static string GetKey(string key)

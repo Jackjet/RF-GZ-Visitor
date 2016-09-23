@@ -11,7 +11,6 @@ namespace RF_Visitor.Core
     class SerialGate : IGate
     {
         Serial _serial = null;
-        const int Delay = 1000;
 
         public void Connect(string ip)
         {
@@ -33,8 +32,7 @@ namespace RF_Visitor.Core
             var data = SerialData(1);
             _serial.Write(data);
 
-            Thread.Sleep(Delay);
-
+            Thread.Sleep(ConfigPublic.Delay);
             data = SerialData(0);
             _serial.Write(data);
         }
@@ -44,8 +42,7 @@ namespace RF_Visitor.Core
             var data = SerialData(2);
             _serial.Write(data);
 
-            Thread.Sleep(Delay);
-
+            Thread.Sleep(ConfigPublic.Delay);
             data = SerialData(0);
             _serial.Write(data);
         }

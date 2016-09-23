@@ -55,7 +55,6 @@ namespace RF_Visitor.Core
                         if (b == 13)
                         {
                             var barcode = new string(_barcodeList.ToArray());
-                            Log(barcode);
                             _callback?.Invoke(barcode);
                             _barcodeList.Clear();
                         }

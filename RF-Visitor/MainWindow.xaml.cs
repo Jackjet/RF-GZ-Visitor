@@ -58,7 +58,7 @@ namespace RF_Visitor
 
         private void btnIn_Click(object sender, RoutedEventArgs e)
         {
-            vm.QRReaderCallback_In("123");
+            vm.QRReaderCallback_In("Qvbhz4zrgE3bHjABcgms0rr2wlyLLXZl1HS6h1noVMzYUUY1oafTGWLYoIkGMnGJWfjp8%2F%2BCPAsZaFEwJbj98oR3D0anUot0%2FKZw7yA2Seb6xzXLsTluQmYLJ2Lx0kqm");
         }
 
         private void btnOut_Click(object sender, RoutedEventArgs e)

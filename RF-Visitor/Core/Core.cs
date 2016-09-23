@@ -109,28 +109,35 @@ namespace RF_Visitor.Core
 
         public void QRReaderCallback_In(string code)
         {
-            var result = HttpMethod.Get(code, 1);
-            if (result.content && result.success)
+            try
             {
                 Log("入->{0}", code);
-                VerfiyMessage = "入->请通行";
-                StateImage = OKImage;
-                gate.OpenIn();
+                var result = HttpMethod.Get(code, 1);
+                if (result.content && result.success)
+                {
+                    VerfiyMessage = "入->请通行";
+                    StateImage = OKImage;
+                    gate.OpenIn();
+                }
+                else
+                {
+                    VerfiyMessage = "入->未授权";
+                    StateImage = NOImage;
+                }
+                Welcome();
             }
-            else
+            catch (Exception ex)
             {
-                VerfiyMessage = "入->未授权";
-                StateImage = NOImage;
+                LogHelper.Info("入异常->" + ex.Message);
             }
-            Welcome();
         }
 
         public void QRReaderCallback_Out(string code)
         {
+            Log("出->{0}", code);
             var result = HttpMethod.Get(code, 2);
             if (result.content && result.success)
             {
-                Log("出->{0}", code);
                 VerfiyMessage = "出->请通行";
                 StateImage = OKImage;
                 gate.OpenOut();

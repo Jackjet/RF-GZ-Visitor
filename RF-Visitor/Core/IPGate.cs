@@ -12,7 +12,6 @@ namespace RF_Visitor.Core
     {
         TcpConnect tcp = null;
         bool connected = false;
-        const int Delay = 1000;
         /// <summary>
         /// 连接网络设备
         /// </summary>
@@ -34,8 +33,7 @@ namespace RF_Visitor.Core
             var data = OpenGate(1);
             tcp.Send(data);
 
-            Thread.Sleep(Delay);
-
+            Thread.Sleep(ConfigPublic.Delay);
             data = OpenGate(0);
             tcp.Send(data);
         }
@@ -47,8 +45,7 @@ namespace RF_Visitor.Core
             var data = OpenGate(2);
             tcp.Send(data);
 
-            Thread.Sleep(Delay);
-
+            Thread.Sleep(ConfigPublic.Delay);
             data = OpenGate(0);
             tcp.Send(data);
         }
