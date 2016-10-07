@@ -18,7 +18,6 @@ namespace RF_Visitor.Core
         private SerialPort _serialPort = null;
         private List<char> _barcodeList = new List<char>();
         private Action<string> _callback;
-
         private const int baudRate = 9600;
 
         public bool Open(string portName)
