@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RF_Visitor.Core
+namespace KonNaDSwitch
 {
-    interface IGate
+    public interface IGate
     {
         void Connect(string ip);
 
-        void OpenIn();
+        void OpenIn(int delay);
 
-        void OpenOut();
+        void OpenOut(int delay);
 
         void Disconnect();
     }

@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace RF_Visitor.Core
+namespace KonNaDSwitch
 {
-    class IPGate : IGate
+    public class IPGate : IGate
     {
         TcpConnect tcp = null;
         bool connected = false;
@@ -28,24 +28,24 @@ namespace RF_Visitor.Core
         /// <summary>
         /// 入开闸
         /// </summary>
-        public void OpenIn()
+        public void OpenIn(int delay)
         {
             var data = OpenGate(1);
             tcp.Send(data);
 
-            Thread.Sleep(ConfigPublic.Delay);
+            Thread.Sleep(delay);
             data = OpenGate(0);
             tcp.Send(data);
         }
         /// <summary>
         /// 出开闸
         /// </summary>
-        public void OpenOut()
+        public void OpenOut(int delay)
         {
             var data = OpenGate(2);
             tcp.Send(data);
 
-            Thread.Sleep(ConfigPublic.Delay);
+            Thread.Sleep(delay);
             data = OpenGate(0);
             tcp.Send(data);
         }

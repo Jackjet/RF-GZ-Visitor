@@ -6,12 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RF_Visitor.Core
+namespace KonNaDSwitch
 {
     /// <summary>
     /// 康奈德485继电器
     /// </summary>
-    class Serial
+    public class Serial
     {
         private const int baudRate = 9600;
 

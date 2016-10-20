@@ -7,12 +7,12 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RF_Visitor.Core
+namespace KonNaDSwitch
 {
     /// <summary>
     /// TCP继电器
     /// </summary>
-    class TcpConnect
+    public class TcpConnect
     {
         private TcpClient tcpclient = null;
         private NetworkStream stream = null;

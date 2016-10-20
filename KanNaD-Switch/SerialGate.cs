@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace RF_Visitor.Core
+namespace KonNaDSwitch
 {
-    class SerialGate : IGate
+    public class SerialGate : IGate
     {
         Serial _serial = null;
 
@@ -27,22 +27,22 @@ namespace RF_Visitor.Core
             _serial.Close();
         }
 
-        public void OpenIn()
+        public void OpenIn(int delay)
         {
             var data = SerialData(1);
             _serial.Write(data);
 
-            Thread.Sleep(ConfigPublic.Delay);
+            Thread.Sleep(delay);
             data = SerialData(0);
             _serial.Write(data);
         }
 
-        public void OpenOut()
+        public void OpenOut(int delay)
         {
             var data = SerialData(2);
             _serial.Write(data);
 
-            Thread.Sleep(ConfigPublic.Delay);
+            Thread.Sleep(delay);
             data = SerialData(0);
             _serial.Write(data);
         }

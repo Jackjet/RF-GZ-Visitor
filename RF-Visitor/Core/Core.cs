@@ -8,6 +8,7 @@ using Common.Log;
 using Common.NotifyBase;
 using System.Windows.Input;
 using System.Threading;
+using KonNaDSwitch;
 
 namespace RF_Visitor.Core
 {
@@ -117,7 +118,7 @@ namespace RF_Visitor.Core
                 {
                     VerfiyMessage = "入->请通行";
                     StateImage = OKImage;
-                    gate.OpenIn();
+                    gate.OpenIn(ConfigPublic.Delay);
                 }
                 else
                 {
@@ -140,7 +141,7 @@ namespace RF_Visitor.Core
             {
                 VerfiyMessage = "出->请通行";
                 StateImage = OKImage;
-                gate.OpenOut();
+                gate.OpenOut(ConfigPublic.Delay);
             }
             else
             {
