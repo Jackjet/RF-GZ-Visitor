@@ -10,8 +10,8 @@ namespace KonNaDSwitch
 {
     public class IPGate : IGate
     {
-        TcpConnect tcp = null;
-        bool connected = false;
+        private TcpConnect tcp = null;
+        private bool connected = false;
         /// <summary>
         /// 连接网络设备
         /// </summary>

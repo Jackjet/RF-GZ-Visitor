@@ -10,7 +10,7 @@ namespace KonNaDSwitch
 {
     public class SerialGate : IGate
     {
-        Serial _serial = null;
+        private Serial _serial = null;
 
         public void Connect(string ip)
         {

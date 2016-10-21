@@ -14,7 +14,9 @@ namespace RF_Visitor.Core
 {
     class HttpMethod
     {
-        const string URL = "http://test.api.visitor.rfmember.net/api/building/open_door_qrcode?content={0}&item_id={1}&building_id={2}&type={3}";
+        //const string URL = "http://test.api.visitor.rfmember.net/api/building/open_door_qrcode?content={0}&item_id={1}&building_id={2}&type={3}";
+
+        const string URL = "http://t.api.zizai.rfmember.net/api/community/qrcode/check?content={0}&item_id={1}&community_id={2}&type={3}";
 
         /// <summary>
         /// 

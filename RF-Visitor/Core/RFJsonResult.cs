@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace RF_Visitor.Core
 {
-    class RFJsonResult
+    /// <summary>
+    /// 授权返回
+    /// </summary>
+    public class RFJsonResult
     {
-        public bool success { get; set; }
+        public int status { get; set; }
 
-        public bool content { get; set; }
+        public string message { get; set; }
 
-        public bool hasError { get; set; }
-
-        public string httpStatus { get; set; }
+        public object data { get; set; }
     }
 }

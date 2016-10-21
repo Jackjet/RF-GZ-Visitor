@@ -43,6 +43,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Thirds\Common.dll</HintPath>
     </Reference>
+    <Reference Include="KonNaD_Switch">
+      <HintPath>F:\github\DeviceInterfaceTest\Code\KanNaD-Switch\bin\Debug\KonNaD_Switch.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.2.4.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
@@ -136,12 +139,6 @@
     <Content Include="Thirds\Common.dll" />
     <Content Include="Thirds\HIDSdk.dll" />
     <Content Include="Thirds\Iaspec.Net.Common.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\KanNaD-Switch\KonNaD_Switch.csproj">
-      <Project>{C893AE92-632A-4AC5-A48D-8E6D73A37700}</Project>
-      <Name>KonNaD_Switch</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

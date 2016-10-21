@@ -17,7 +17,6 @@ namespace KonNaDSwitch
         private TcpClient tcpclient = null;
         private NetworkStream stream = null;
         private IPAddress remoteAddress = null;
-
         private const int Port = 9876;
 
         public bool Connect(string ip)

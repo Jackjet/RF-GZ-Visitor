@@ -14,7 +14,6 @@ namespace KonNaDSwitch
     public class Serial
     {
         private const int baudRate = 9600;
-
         private SerialPort _serialPort = null;
 
         public bool Open(string portName)

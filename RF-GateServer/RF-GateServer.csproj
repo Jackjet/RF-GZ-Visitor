@@ -38,6 +38,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\RF-Visitor\Thirds\Common.dll</HintPath>
     </Reference>
+    <Reference Include="KonNaD_Switch">
+      <HintPath>F:\github\DeviceInterfaceTest\Code\KanNaD-Switch\bin\Debug\KonNaD_Switch.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -99,12 +102,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\KanNaD-Switch\KonNaD_Switch.csproj">
-      <Project>{c893ae92-632a-4ac5-a48d-8e6d73a37700}</Project>
-      <Name>KonNaD_Switch</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

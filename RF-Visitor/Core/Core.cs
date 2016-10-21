@@ -114,7 +114,7 @@ namespace RF_Visitor.Core
             {
                 Log("入->{0}", code);
                 var result = HttpMethod.Get(code, 1);
-                if (result.content && result.success)
+                if (result.status == 200)
                 {
                     VerfiyMessage = "入->请通行";
                     StateImage = OKImage;
@@ -137,7 +137,7 @@ namespace RF_Visitor.Core
         {
             Log("出->{0}", code);
             var result = HttpMethod.Get(code, 2);
-            if (result.content && result.success)
+            if (result.status == 200)
             {
                 VerfiyMessage = "出->请通行";
                 StateImage = OKImage;
