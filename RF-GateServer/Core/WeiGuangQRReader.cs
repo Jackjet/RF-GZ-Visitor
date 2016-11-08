@@ -18,10 +18,13 @@ namespace RF_GateServer.Core
         private bool isRuning = false;
         private NetworkStream nws = null;
 
+        private string ip;
+
         public bool Connect(string ip, int port)
         {
             try
             {
+                this.ip = ip;
                 IPAddress ipaddress = IPAddress.Parse(ip);
                 tcp = new TcpClient();
                 tcp.Connect(ipaddress, port);
@@ -35,19 +38,6 @@ namespace RF_GateServer.Core
             }
         }
 
-        public void Write()
-        {
-            Task.Factory.StartNew(() =>
-            {
-                while (true)
-                {
-                    var hello = Encoding.UTF8.GetBytes(DateTime.Now.ToString());
-                    nws.Write(hello, 0, hello.Length);
-                    Thread.Sleep(5000);
-                }
-            });
-        }
-
         public void DisConnect()
         {
             isRuning = false;
@@ -56,30 +46,42 @@ namespace RF_GateServer.Core
             thread.Abort();
         }
 
-        private Action<string> callback = null;
-        public void BeginRead(Action<string> callback)
+        private ReadBarCodeEventHandler callback = null;
+        private byte[] buffer = new byte[256];
+        public void BeginRead(ReadBarCodeEventHandler callback)
         {
             this.callback = callback;
             this.isRuning = true;
-            thread = new Thread(Read);
-            thread.Start();
+            //thread = new Thread(Read);
+            //thread.Start();
+            nws.BeginRead(buffer, 0, buffer.Length, EndRead, nws);
         }
 
-        private void Read()
+        private void EndRead(IAsyncResult ir)
         {
-            while (nws.CanRead && isRuning)
-            {
-                try
-                {
-                    byte[] buffer = new byte[256];
-                    var len = nws.Read(buffer, 0, buffer.Length);
-                    var code = System.Text.Encoding.UTF8.GetString(buffer, 0, len);
-                    callback?.BeginInvoke(code, null, null);
-                }
-                catch
-                {
-                }
-            }
+            var temp = (NetworkStream)ir.AsyncState;
+            var len = temp.EndRead(ir);
+
+            var code = System.Text.Encoding.UTF8.GetString(buffer, 0, len);
+            callback?.BeginInvoke(ip,  code, null, null);
+            temp.BeginRead(buffer, 0, buffer.Length, EndRead, temp);
         }
+
+        //private void Read()
+        //{
+        //    while (nws.CanRead && isRuning)
+        //    {
+        //        try
+        //        {
+        //            byte[] buffer = new byte[256];
+        //            var len = nws.Read(buffer, 0, buffer.Length);
+        //            var code = System.Text.Encoding.UTF8.GetString(buffer, 0, len );
+        //            callback?.BeginInvoke(code, null, null);
+        //        }
+        //        catch
+        //        {
+        //        }
+        //    }
+        //}
     }
 }

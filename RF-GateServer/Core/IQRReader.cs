@@ -10,10 +10,10 @@ namespace RF_GateServer.Core
     {
         bool Connect(string ip, int port);
 
-        void Write();
-
-        void BeginRead(Action<string> callbakc);
+        void BeginRead(ReadBarCodeEventHandler callback);
 
         void DisConnect();
     }
+
+    public delegate void ReadBarCodeEventHandler(string ip, string qrcode);
 }

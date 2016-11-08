@@ -49,6 +49,7 @@ namespace RF_GateServer
         private void btnConnectReader_Click(object sender, RoutedEventArgs e)
         {
             ConnectReader();
+            ((FrameworkElement)sender).IsEnabled = false;
         }
 
         private void ConnectReader()
@@ -77,7 +78,7 @@ namespace RF_GateServer
 
         private void ReaderCallback(string ip, string qrcode)
         {
-            Console.Out.WriteLine(Thread.CurrentThread.ManagedThreadId + " " + ip + " " + qrcode);
+            Console.Out.WriteLine(Thread.CurrentThread.ManagedThreadId + " " + ip + " qrcode->" + qrcode);
         }
 
         bool stop = false;
@@ -95,11 +96,6 @@ namespace RF_GateServer
             //        Thread.Sleep(1);
             //    }
             //});
-
-            foreach (var item in readerList)
-            {
-                item.Value.Write();
-            }
         }
 
         private void btnStop_Click(object sender, RoutedEventArgs e)
