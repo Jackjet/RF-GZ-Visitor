@@ -35,6 +35,19 @@ namespace RF_GateServer.Core
             }
         }
 
+        public void Write()
+        {
+            Task.Factory.StartNew(() =>
+            {
+                while (true)
+                {
+                    var hello = Encoding.UTF8.GetBytes(DateTime.Now.ToString());
+                    nws.Write(hello, 0, hello.Length);
+                    Thread.Sleep(5000);
+                }
+            });
+        }
+
         public void DisConnect()
         {
             isRuning = false;

@@ -10,6 +10,8 @@ namespace RF_GateServer.Core
     {
         bool Connect(string ip, int port);
 
+        void Write();
+
         void BeginRead(Action<string> callbakc);
 
         void DisConnect();
