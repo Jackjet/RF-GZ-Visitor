@@ -65,6 +65,9 @@
     <Compile Include="ServerConfigWindow.xaml.cs">
       <DependentUpon>ServerConfigWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ServerListWindow.xaml.cs">
+      <DependentUpon>ServerListWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModel\ServerViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -84,6 +87,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ServerConfigWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ServerListWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

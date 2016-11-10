@@ -26,6 +26,24 @@ namespace RF_GateServer
         public MainWindow()
         {
             InitializeComponent();
+
+            this.AddHandler(Window.PreviewKeyDownEvent, new KeyEventHandler(WindowKeyDown));
+        }
+
+        private void WindowKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.F2)
+            {
+                ServerConfigWindow config = new RF_GateServer.ServerConfigWindow(new Channel());
+                config.ShowDialog();
+
+                MapReader.Save(new Channel {
+                    Index = "2",
+                    ChannelName = "你好",
+                    AreaName = "西八区",
+                    ItemId = "1",
+                    CommunityId = "1" });
+            }
         }
 
         private void btnConnectReader_Click(object sender, RoutedEventArgs e)

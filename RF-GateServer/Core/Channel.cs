@@ -11,7 +11,7 @@ namespace RF_GateServer.Core
     /// <summary>
     /// 通道
     /// </summary>
-    class Channel
+    public class Channel : Common.NotifyBase.PropertyNotifyObject
     {
         private const int InTypeNo = 1;
         private const int OutTypeNo = 2;

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Common;
+using RF_GateServer.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,22 @@ namespace RF_GateServer
     /// </summary>
     public partial class ServerConfigWindow : Window
     {
-        public ServerConfigWindow()
+        private Channel channel = null;
+        public ServerConfigWindow(Channel channel)
         {
             InitializeComponent();
+            this.channel = channel;
+            this.DataContext = channel;
+        }
+
+        private void btnOK_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = true;
+        }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = false;
         }
     }
 }
