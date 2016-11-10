@@ -6,7 +6,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RF_GateServer.door
+namespace RF_GateServer.Gate
 {
     class MegviiGate : IGate
     {

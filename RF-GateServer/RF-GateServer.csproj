@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -58,6 +59,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Core\Channel.cs" />
+    <Compile Include="Core\ComServerController.cs" />
+    <Compile Include="Core\MapReader.cs" />
+    <Compile Include="ServerConfigWindow.xaml.cs">
+      <DependentUpon>ServerConfigWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\ServerViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -68,13 +76,17 @@
     </Compile>
     <Compile Include="Core\IQRReader.cs" />
     <Compile Include="Core\WeiGuangQRReader.cs" />
-    <Compile Include="door\IGate.cs" />
-    <Compile Include="door\MegviiGate.cs" />
-    <Compile Include="door\UdpSocket.cs" />
+    <Compile Include="Gate\IGate.cs" />
+    <Compile Include="Gate\MegviiGate.cs" />
+    <Compile Include="Gate\UdpSocket.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ServerConfigWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -104,9 +116,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="comserver.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    <None Include="comserver.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

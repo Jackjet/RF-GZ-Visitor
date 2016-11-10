@@ -7,6 +7,7 @@
         Title="MainWindow"
         Width="525"
         Height="350"
+        WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
     <Window.Resources>
         <Style TargetType="Button">
@@ -24,11 +25,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-            <Button Click="btnConnectSwitch_Click" Content="Init switch List" />
             <Button Click="btnConnectReader_Click" Content="Init reader List" />
-
-            <Button Click="btnTest_Click" Content="Test" />
-            <Button Click="btnStop_Click" Content="Stop" />
         </StackPanel>
     </Grid>
 </Window>

@@ -19,12 +19,18 @@ namespace RF_GateServer.Core
         private NetworkStream nws = null;
 
         private string ip;
+        private int port;
 
-        public bool Connect(string ip, int port)
+        public WeiGuangQRReader(string ip, int port = 9876)
+        {
+            this.ip = ip;
+            this.port = port;
+        }
+
+        public bool Connect()
         {
             try
             {
-                this.ip = ip;
                 IPAddress ipaddress = IPAddress.Parse(ip);
                 tcp = new TcpClient();
                 tcp.Connect(ipaddress, port);
@@ -63,7 +69,7 @@ namespace RF_GateServer.Core
             var len = temp.EndRead(ir);
 
             var code = System.Text.Encoding.UTF8.GetString(buffer, 0, len);
-            callback?.BeginInvoke(ip,  code, null, null);
+            callback?.BeginInvoke(ip, code, null, null);
             temp.BeginRead(buffer, 0, buffer.Length, EndRead, temp);
         }
 

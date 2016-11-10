@@ -8,7 +8,7 @@ namespace RF_GateServer.Core
 {
     public interface IQRReader
     {
-        bool Connect(string ip, int port);
+        bool Connect();
 
         void BeginRead(ReadBarCodeEventHandler callback);
 

@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RF_GateServer.door
+namespace RF_GateServer.ViewModel
 {
-    public interface IGate
+    class ServerViewModel
     {
-        void In();
-
-        void Out();
     }
 }
