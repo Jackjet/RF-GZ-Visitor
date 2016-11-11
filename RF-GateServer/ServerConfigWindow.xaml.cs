@@ -29,6 +29,14 @@ namespace RF_GateServer
             this.DataContext = channel;
         }
 
+        public Channel Channel
+        {
+            get
+            {
+                return (Channel)this.DataContext;
+            }
+        }
+
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;

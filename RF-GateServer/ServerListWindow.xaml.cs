@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RF_GateServer.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,24 @@ namespace RF_GateServer
         public ServerListWindow()
         {
             InitializeComponent();
+
+            this.Loaded += ServerListWindow_Loaded;
+        }
+
+        private void ServerListWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            dgChannel.ItemsSource = MapReader.Read();
+        }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            ServerConfigWindow config = new RF_GateServer.ServerConfigWindow(new Channel());
+            config.ShowDialog();
+            MapReader.Save(config.Channel);
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
         }
     }
 }

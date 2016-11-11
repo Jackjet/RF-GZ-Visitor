@@ -62,6 +62,7 @@
     <Compile Include="Core\Channel.cs" />
     <Compile Include="Core\ComServerController.cs" />
     <Compile Include="Core\MapReader.cs" />
+    <Compile Include="Ext.cs" />
     <Compile Include="ServerConfigWindow.xaml.cs">
       <DependentUpon>ServerConfigWindow.xaml</DependentUpon>
     </Compile>
@@ -123,9 +124,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="comserver.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="comserver.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

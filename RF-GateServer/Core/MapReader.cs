@@ -13,13 +13,15 @@ namespace RF_GateServer.Core
     {
         private static readonly string filename = "comserver.xml";
 
+        private const string xPathchannel = "/channels/channel";
+        private const string xPathchannels = "/channels";
+
         public static List<Channel> Read()
         {
             XmlDocument doc = new XmlDocument();
             doc.Load(filename);
 
-            var xPath = "/servers/server";
-            var servers = doc.SelectNodes(xPath);
+            var servers = doc.SelectNodes(xPathchannel);
             if (servers.Count == 0)
                 return new List<Core.Channel>();
 
@@ -46,12 +48,13 @@ namespace RF_GateServer.Core
             channel.ItemId = item.SelectSingleNode("itemId").InnerText;
 
             var inIp = item.SelectSingleNode("in").InnerText;
-            channel.InReader = !inIp.IsEmpty() ? new WeiGuangQRReader(inIp) : null;
+            channel.InIp = inIp;
 
             var outIp = item.SelectSingleNode("out").InnerText;
-            channel.OutReader = !outIp.IsEmpty() ? new WeiGuangQRReader(outIp) : null;
+            channel.OutIp = outIp;
 
-            channel.Gate = new MegviiGate(new UdpSocket(item.SelectSingleNode("gate").InnerText));
+            var gateIp = item.SelectSingleNode("gate").InnerText;
+            channel.GateIp = gateIp;
             return channel;
         }
 
@@ -60,49 +63,36 @@ namespace RF_GateServer.Core
             XmlDocument doc = new XmlDocument();
             doc.Load(filename);
 
-            var root = doc.SelectSingleNode("/servers");
+            var root = doc.SelectSingleNode(xPathchannels);
 
-            XmlNode server = doc.CreateNode(XmlNodeType.Element, "server", "");
+            XmlNode server = doc.CreateNode(XmlNodeType.Element, "channel", "");
             root.AppendChild(server);
 
-            XmlElement nodeIndex = doc.CreateElement("index");
-            nodeIndex.InnerText = channel.Index;
+            XmlElement nodeIndex = doc.CreateElement("index", channel.Index);
             server.AppendChild(nodeIndex);
 
-            XmlElement nodeName = doc.CreateElement("name");
-            nodeName.InnerText = channel.ChannelName;
+            XmlElement nodeName = doc.CreateElement("name", channel.ChannelName);
             server.AppendChild(nodeName);
 
-            XmlElement nodeAreaName = doc.CreateElement("areaName");
-            nodeAreaName.InnerText = channel.AreaName;
+            XmlElement nodeAreaName = doc.CreateElement("areaName", channel.AreaName);
             server.AppendChild(nodeAreaName);
 
-            XmlElement nodeItemId = doc.CreateElement("itemId");
-            nodeItemId.InnerText = channel.ItemId;
+            XmlElement nodeItemId = doc.CreateElement("itemId", channel.ItemId);
             server.AppendChild(nodeItemId);
 
-            XmlElement nodecommunityId = doc.CreateElement("communityId");
-            nodecommunityId.InnerText = channel.CommunityId;
+            XmlElement nodecommunityId = doc.CreateElement("communityId", channel.CommunityId);
             server.AppendChild(nodecommunityId);
 
-            XmlElement nodeIn = doc.CreateElement("in");
-            nodeIn.InnerText = channel.CommunityId;
+            XmlElement nodeIn = doc.CreateElement("in", channel.InIp);
             server.AppendChild(nodeIn);
 
-            XmlElement nodeOut = doc.CreateElement("out");
-            nodeOut.InnerText = channel.CommunityId;
+            XmlElement nodeOut = doc.CreateElement("out", channel.OutIp);
             server.AppendChild(nodeOut);
 
-            XmlElement nodeGate = doc.CreateElement("gate");
-            nodeGate.InnerText = channel.CommunityId;
+            XmlElement nodeGate = doc.CreateElement("gate", channel.GateIp);
             server.AppendChild(nodeGate);
 
             doc.Save(filename);
         }
-
-        //private static XmlElement CreateElement(string name, string value)
-        //{
-        //    XmlElement
-        //}
     }
 }

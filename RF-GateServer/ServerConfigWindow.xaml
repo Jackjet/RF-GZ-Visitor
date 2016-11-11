@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:RF_GateServer"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        Title="ServerConfigWindow"
+        Title="通道配置"
         Width="600"
         Height="400"
         FocusManager.FocusedElement="{Binding ElementName=txtNo}"
@@ -16,13 +16,15 @@
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
+
         <Style TargetType="TextBox">
             <Setter Property="Background" Value="#fcfcfc" />
             <Setter Property="Height" Value="26" />
             <Setter Property="Width" Value="200" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Left" />
-
         </Style>
+
         <Style TargetType="Button">
             <Setter Property="Width" Value="80" />
             <Setter Property="Height" Value="24" />
@@ -31,6 +33,7 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition />
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
@@ -52,39 +55,59 @@
                Content="序号：" />
         <TextBox Name="txtNo"
                  Grid.Row="0"
-                 Grid.Column="2" />
+                 Grid.Column="2"
+                 Text="{Binding Index}" />
 
         <Label Grid.Row="1"
                Grid.Column="1"
                Content="名称：" />
-        <TextBox Grid.Row="1" Grid.Column="2" />
+        <TextBox Grid.Row="1"
+                 Grid.Column="2"
+                 Text="{Binding ChannelName}" />
 
         <Label Grid.Row="2"
                Grid.Column="1"
                Content="ItemId：" />
-        <TextBox Grid.Row="2" Grid.Column="2" />
+        <TextBox Grid.Row="2"
+                 Grid.Column="2"
+                 Text="{Binding ItemId}" />
 
         <Label Grid.Row="3"
                Grid.Column="1"
                Content="CommunityID：" />
-        <TextBox Grid.Row="3" Grid.Column="2" />
+        <TextBox Grid.Row="3"
+                 Grid.Column="2"
+                 Text="{Binding CommunityId}" />
 
         <Label Grid.Row="4"
                Grid.Column="1"
                Content="入IP：" />
-        <TextBox Grid.Row="4" Grid.Column="2" />
+        <TextBox Grid.Row="4"
+                 Grid.Column="2"
+                 Text="{Binding InIp}" />
 
         <Label Grid.Row="5"
                Grid.Column="1"
                Content="出IP：" />
-        <TextBox Grid.Row="5" Grid.Column="2" />
+        <TextBox Grid.Row="5"
+                 Grid.Column="2"
+                 Text="{Binding OutIp}" />
 
         <Label Grid.Row="6"
                Grid.Column="1"
                Content="控制器IP：" />
-        <TextBox Grid.Row="6" Grid.Column="2" />
+        <TextBox Grid.Row="6"
+                 Grid.Column="2"
+                 Text="{Binding GateIp}" />
 
-        <StackPanel Grid.Row="7"
+        <Label Grid.Row="7"
+               Grid.Column="1"
+               Content="区域名称：" />
+        <TextBox Grid.Row="7"
+                 Grid.Column="2"
+                 Text="{Binding AreaName}" />
+
+        <StackPanel Grid.Row="8"
                     Grid.Column="2"
                     Orientation="Horizontal">
             <Button Click="btnOK_Click" Content="保存" />

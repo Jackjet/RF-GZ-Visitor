@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<servers>
-  <server>
+<channels>
+  <channel>
     <index>1</index>
     <name>通道</name>
     <areaName>西八区</areaName>
@@ -9,5 +9,5 @@
     <in>192.168.1.1</in>
     <out>192.168.1.2</out>
     <gate>192.168.1.5</gate>
-  </server>
-</servers>
+  </channel>
+</channels>

@@ -34,15 +34,8 @@ namespace RF_GateServer
         {
             if (e.Key == Key.F2)
             {
-                ServerConfigWindow config = new RF_GateServer.ServerConfigWindow(new Channel());
-                config.ShowDialog();
-
-                MapReader.Save(new Channel {
-                    Index = "2",
-                    ChannelName = "你好",
-                    AreaName = "西八区",
-                    ItemId = "1",
-                    CommunityId = "1" });
+                ServerListWindow server = new RF_GateServer.ServerListWindow();
+                server.Show();
             }
         }
 
