@@ -60,7 +60,7 @@ namespace RF_Visitor
         {
             Task.Factory.StartNew(() =>
             {
-                vm.QRReaderCallback_In("eyJ0IjoxLCJpZCI6NDUsImtleSI6ImQ5ZTg3YzkzLTU0OTUtNDNjZC05ZTM1LTM5NDhmODhkODBlYiJ9");
+                vm.QRReaderCallback_In("eyJ0IjoyLCJpIjoyNCwiayI6IjYwZDY2YWE4LTY0NzYtNDViOS04YzljLTQ1NWQ0MmNlZThjYyJ9");
             });
         }
 

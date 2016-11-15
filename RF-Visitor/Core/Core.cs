@@ -118,12 +118,14 @@ namespace RF_Visitor.Core
                 {
                     VerfiyMessage = "入->请通行";
                     StateImage = OKImage;
+                    Log("入->OK");
                     gate.OpenIn(ConfigPublic.Delay);
                 }
                 else
                 {
                     VerfiyMessage = "入->未授权";
                     StateImage = NOImage;
+                    Log("入->Error");
                 }
                 Welcome();
             }
@@ -141,12 +143,14 @@ namespace RF_Visitor.Core
             {
                 VerfiyMessage = "出->请通行";
                 StateImage = OKImage;
+                Log("出->OK");
                 gate.OpenOut(ConfigPublic.Delay);
             }
             else
             {
                 VerfiyMessage = "出->未授权";
                 StateImage = NOImage;
+                Log("出->Error");
             }
             Welcome();
         }
