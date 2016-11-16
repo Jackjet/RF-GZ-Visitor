@@ -1,5 +1,4 @@
 ﻿using Common;
-using Common.WebAPI;
 using RF_Visitor.Core;
 using System;
 using System.Collections.Generic;
@@ -53,7 +52,7 @@ namespace RF_Visitor
         {
             var appName = System.Windows.Forms.Application.ProductName;
             var executePath = System.Windows.Forms.Application.ExecutablePath;
-            Funs.runWhenStart(false, appName, executePath);
+            Utility.runWhenStart(true, appName, executePath);
         }
 
         private void btnIn_Click(object sender, RoutedEventArgs e)
