@@ -30,6 +30,8 @@ namespace RF_Visitor
 
         public static int Delay { get; set; }
 
+        public static string Host { get; set; }
+
         /// <summary>
         /// 读取配置参数
         /// </summary>
@@ -50,6 +52,12 @@ namespace RF_Visitor
             Delay = GetKey("Delay").ToInt32();
             if (Delay == 0)
                 Delay = 5000;
+
+            var hostPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "host.txt");
+            if (System.IO.File.Exists(hostPath))
+                Host = System.IO.File.ReadAllText(hostPath);
+            else
+                Host = "http://127.0.0.1";
         }
 
         private static string GetKey(string key)

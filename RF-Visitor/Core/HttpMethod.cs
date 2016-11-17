@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Script.Serialization;
 
 namespace RF_Visitor.Core
@@ -16,7 +17,10 @@ namespace RF_Visitor.Core
     {
         //const string URL = "http://test.api.visitor.rfmember.net/api/building/open_door_qrcode?content={0}&item_id={1}&building_id={2}&type={3}";
 
-        const string URL = "http://t.api.zizai.rfmember.net/api/community/qrcode/check?content={0}&item_id={1}&community_id={2}&type={3}";
+        const string old_host = "http://t.api.zizai.rfmember.net";
+        const string new_host = "http://api.zizai.thinkinpower.com";
+
+        const string URL = "/api/community/qrcode/check?content={0}&item_id={1}&community_id={2}&type={3}";
 
         /// <summary>
         /// 
@@ -44,7 +48,10 @@ namespace RF_Visitor.Core
 
         private static string Request(string qrcode, int type, out string error)
         {
-            var url = string.Format(URL,
+            var fullUrl = ConfigPublic.Host + URL;
+            qrcode = HttpUtility.UrlEncode(qrcode);
+
+            var url = string.Format(fullUrl,
              qrcode,
              ConfigPublic.TermID,
              ConfigPublic.BuildingID,
