@@ -53,8 +53,7 @@
         <Label Grid.Row="0"
                Grid.Column="1"
                Content="序号：" />
-        <TextBox Name="txtNo"
-                 Grid.Row="0"
+        <TextBox Grid.Row="0"
                  Grid.Column="2"
                  Text="{Binding Index}" />
 
@@ -74,7 +73,7 @@
 
         <Label Grid.Row="3"
                Grid.Column="1"
-               Content="CommunityID：" />
+               Content="CommunityId：" />
         <TextBox Grid.Row="3"
                  Grid.Column="2"
                  Text="{Binding CommunityId}" />
@@ -95,7 +94,7 @@
 
         <Label Grid.Row="6"
                Grid.Column="1"
-               Content="控制器IP：" />
+               Content="网络继电器IP：" />
         <TextBox Grid.Row="6"
                  Grid.Column="2"
                  Text="{Binding GateIp}" />

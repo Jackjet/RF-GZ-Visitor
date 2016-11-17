@@ -23,7 +23,6 @@ namespace RF_GateServer
         public ServerListWindow()
         {
             InitializeComponent();
-
             this.Loaded += ServerListWindow_Loaded;
         }
 
@@ -34,7 +33,7 @@ namespace RF_GateServer
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            ServerConfigWindow config = new RF_GateServer.ServerConfigWindow(new Channel());
+            ServerConfigWindow config = new ServerConfigWindow(new Channel());
             config.ShowDialog();
             MapReader.Save(config.Channel);
         }

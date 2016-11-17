@@ -40,7 +40,9 @@
       <HintPath>..\RF-Visitor\Thirds\Common.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Activities" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -61,7 +63,9 @@
     </ApplicationDefinition>
     <Compile Include="Core\Channel.cs" />
     <Compile Include="Core\ComServerController.cs" />
+    <Compile Include="Core\LivingData.cs" />
     <Compile Include="Core\MapReader.cs" />
+    <Compile Include="Core\UdpComServer.cs" />
     <Compile Include="Ext.cs" />
     <Compile Include="ServerConfigWindow.xaml.cs">
       <DependentUpon>ServerConfigWindow.xaml</DependentUpon>
@@ -70,6 +74,10 @@
       <DependentUpon>ServerListWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\ServerViewModel.cs" />
+    <Page Include="general.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -124,7 +132,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="comserver.xml" />
+    <None Include="comserver.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="dll\Common.dll" />
+    <Content Include="dll\Iaspec.Net.Common.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

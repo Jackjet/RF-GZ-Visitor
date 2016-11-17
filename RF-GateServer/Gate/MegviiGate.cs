@@ -16,9 +16,9 @@ namespace RF_GateServer.Gate
 
         private UdpSocket socket = null;
 
-        public MegviiGate(UdpSocket socket)
+        public MegviiGate(string gateIp)
         {
-            this.socket = socket;
+            socket = new Gate.UdpSocket(gateIp);
         }
 
         public void In()
@@ -42,6 +42,11 @@ namespace RF_GateServer.Gate
         {
             byte[] buffer = Encoding.ASCII.GetBytes(command);
             return buffer;
+        }
+
+        public void Dispose()
+        {
+            socket?.Dispose();
         }
     }
 }

@@ -2,6 +2,7 @@
 using RF_GateServer.Gate;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,21 +17,21 @@ namespace RF_GateServer.Core
         private const string xPathchannel = "/channels/channel";
         private const string xPathchannels = "/channels";
 
-        public static List<Channel> Read()
+        public static ObservableCollection<Channel> Read()
         {
             XmlDocument doc = new XmlDocument();
             doc.Load(filename);
 
             var servers = doc.SelectNodes(xPathchannel);
             if (servers.Count == 0)
-                return new List<Core.Channel>();
+                return new ObservableCollection<Core.Channel>();
 
             return ConvertToList(servers);
         }
 
-        private static List<Channel> ConvertToList(XmlNodeList nodeList)
+        private static ObservableCollection<Channel> ConvertToList(XmlNodeList nodeList)
         {
-            List<Channel> list = new List<Core.Channel>();
+            ObservableCollection<Channel> list = new ObservableCollection<Channel>();
             foreach (XmlNode item in nodeList)
             {
                 var channel = NodeToChannel(item);
@@ -43,9 +44,10 @@ namespace RF_GateServer.Core
         {
             Channel channel = new Core.Channel();
             channel.Index = item.SelectSingleNode("index").InnerText;
-            channel.ChannelName = item.SelectSingleNode("name").InnerText;
-            channel.AreaName = item.SelectSingleNode("areaName").InnerText;
+            channel.Name = item.SelectSingleNode("name").InnerText;
+            channel.Area = item.SelectSingleNode("areaName").InnerText;
             channel.ItemId = item.SelectSingleNode("itemId").InnerText;
+            channel.CommunityId = item.SelectSingleNode("communityId").InnerText;
 
             var inIp = item.SelectSingleNode("in").InnerText;
             channel.InIp = inIp;
@@ -68,30 +70,53 @@ namespace RF_GateServer.Core
             XmlNode server = doc.CreateNode(XmlNodeType.Element, "channel", "");
             root.AppendChild(server);
 
-            XmlElement nodeIndex = doc.CreateElement("index", channel.Index);
+            XmlElement nodeIndex = doc.CreateElement("index");
+            nodeIndex.InnerText = channel.Index;
             server.AppendChild(nodeIndex);
 
-            XmlElement nodeName = doc.CreateElement("name", channel.ChannelName);
+            XmlElement nodeName = doc.CreateElement("name");
+            nodeName.InnerText = channel.Name;
             server.AppendChild(nodeName);
 
-            XmlElement nodeAreaName = doc.CreateElement("areaName", channel.AreaName);
+            XmlElement nodeAreaName = doc.CreateElement("areaName");
+            nodeAreaName.InnerText = channel.Area;
             server.AppendChild(nodeAreaName);
 
-            XmlElement nodeItemId = doc.CreateElement("itemId", channel.ItemId);
+            XmlElement nodeItemId = doc.CreateElement("itemId");
+            nodeItemId.InnerText = channel.ItemId;
             server.AppendChild(nodeItemId);
 
-            XmlElement nodecommunityId = doc.CreateElement("communityId", channel.CommunityId);
+            XmlElement nodecommunityId = doc.CreateElement("communityId");
+            nodecommunityId.InnerText = channel.CommunityId;
             server.AppendChild(nodecommunityId);
 
-            XmlElement nodeIn = doc.CreateElement("in", channel.InIp);
+            XmlElement nodeIn = doc.CreateElement("in");
+            nodeIn.InnerText = channel.InIp;
             server.AppendChild(nodeIn);
 
-            XmlElement nodeOut = doc.CreateElement("out", channel.OutIp);
+            XmlElement nodeOut = doc.CreateElement("out");
+            nodeOut.InnerText = channel.OutIp;
             server.AppendChild(nodeOut);
 
-            XmlElement nodeGate = doc.CreateElement("gate", channel.GateIp);
+            XmlElement nodeGate = doc.CreateElement("gate");
+            nodeGate.InnerText = channel.GateIp;
             server.AppendChild(nodeGate);
 
+            doc.Save(filename);
+        }
+
+        public static void Delete(string index)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.Load(filename);
+
+            var parent = doc.SelectSingleNode("/channels");
+            var path = "/channels/channel[index='" + index + "']";
+            var node = doc.SelectSingleNode(path);
+            if (node != null)
+            {
+                parent.RemoveChild(node);
+            }
             doc.Save(filename);
         }
     }

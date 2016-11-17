@@ -1,0 +1,47 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:RF_GateServer">
+
+    <Style TargetType="DataGrid">
+        <Setter Property="AutoGenerateColumns" Value="false" />
+        <Setter Property="CanUserAddRows" Value="false" />
+        <Setter Property="CanUserReorderColumns" Value="false" />
+        <Setter Property="GridLinesVisibility" Value="None" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="Goldenrod" />
+        <Setter Property="Background" Value="#fcfcfc" />
+        <Setter Property="RowHeaderWidth" Value="0" />
+        <Setter Property="SelectionMode" Value="Single" />
+    </Style>
+    <Style TargetType="DataGridCell">
+        <Setter Property="Height" Value="25" />
+        <Setter Property="Background" Value="#fcfcfc" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="true">
+                <Setter Property="Background" Value="DarkGray" />
+                <Setter Property="Foreground" Value="Black" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="DataGridRow">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderBrush" Value="White" />
+        <Setter Property="Height" Value="25" />
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Background" Value="#fcfcfc" />
+    </Style>
+
+    <Style TargetType="DataGridColumnHeader">
+        <Setter Property="Background" Value="#d6dbe9" />
+        <Setter Property="Height" Value="25" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="BorderThickness" Value="0,0,1,1" />
+        <Setter Property="BorderBrush" Value="Goldenrod" />
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Padding" Value="5,0,0,0" />
+    </Style>
+</ResourceDictionary>

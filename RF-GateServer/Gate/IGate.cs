@@ -11,5 +11,7 @@ namespace RF_GateServer.Gate
         void In();
 
         void Out();
+
+        void Dispose();
     }
 }

@@ -10,4 +10,24 @@
     <out>192.168.1.2</out>
     <gate>192.168.1.5</gate>
   </channel>
+    <channel>
+      <index>2</index>
+      <name>通道</name>
+      <areaName>西八区</areaName>
+      <itemId>1</itemId>
+      <communityId>1</communityId>
+      <in>192.168.1.1</in>
+      <out>192.168.1.2</out>
+      <gate>192.168.1.5</gate>
+    </channel>
+      <channel>
+        <index>3</index>
+        <name>通道</name>
+        <areaName>西八区</areaName>
+        <itemId>1</itemId>
+        <communityId>1</communityId>
+        <in>192.168.1.1</in>
+        <out>192.168.1.2</out>
+        <gate>192.168.1.5</gate>
+      </channel>
 </channels>
