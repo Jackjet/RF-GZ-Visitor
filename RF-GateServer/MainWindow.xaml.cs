@@ -18,6 +18,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Common.Dialog;
+using System.ComponentModel;
 
 namespace RF_GateServer
 {
@@ -31,8 +32,13 @@ namespace RF_GateServer
         public MainWindow()
         {
             InitializeComponent();
-
             this.Loaded += MainWindow_Loaded;
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            ComServerController.Instance.Stop();
+            base.OnClosing(e);
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -51,7 +57,7 @@ namespace RF_GateServer
             }
         }
 
-        private void btnConnectReader_Click(object sender, RoutedEventArgs e)
+        private void btnConnectReader_click(object sender, RoutedEventArgs e)
         {
             ConnectReader();
         }
@@ -96,6 +102,11 @@ namespace RF_GateServer
             Channel channel = (Channel)dgChannel.SelectedItem;
             MapReader.Delete(channel.Index);
             ComServerController.Instance.RemoveChannel(channel);
+        }
+
+        private void btnExit_click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

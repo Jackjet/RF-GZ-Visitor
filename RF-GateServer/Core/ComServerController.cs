@@ -11,6 +11,9 @@ namespace RF_GateServer.Core
 {
     class ComServerController
     {
+        private UdpComServer udpServer = null;
+        private const int ComServerPort = 9876;
+        public ObservableCollection<Channel> Channels = null;
         private static ComServerController _instance = new ComServerController();
 
         private ComServerController()
@@ -32,10 +35,7 @@ namespace RF_GateServer.Core
             set;
         }
 
-        private const int ComServerPort = 9876;
-        public ObservableCollection<Channel> Channels = null;
 
-        private UdpComServer udpServer = null;
         public void Run()
         {
             Channels = MapReader.Read();
@@ -67,6 +67,19 @@ namespace RF_GateServer.Core
         {
             channel.Stop();
             Channels.Remove(channel);
+        }
+
+        private int index = 1;
+        public void AddLivingData(LivingData data)
+        {
+            if (index == 100)
+            {
+                LivingDataCollection.Clear();
+            }
+
+            data.Index = index.ToString("d3");
+            LivingDataCollection.Insert(0, data);
+            index++;
         }
 
         public void Stop()

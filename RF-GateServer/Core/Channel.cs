@@ -159,7 +159,7 @@ namespace RF_GateServer.Core
             InLastTime = DateTime.Now.ToStandard();
 
             var data = GetLivingData(this.InIp, qrcode, 1, 123);
-            ComServerController.Instance.LivingDataCollection.Add(data);
+            ComServerController.Instance.AddLivingData(data);
             Gate.In();
         }
 
@@ -168,7 +168,7 @@ namespace RF_GateServer.Core
             OutLastTime = DateTime.Now.ToStandard();
 
             var data = GetLivingData(this.OutIp, qrcode, 0, 456);
-            ComServerController.Instance.LivingDataCollection.Add(data);
+            ComServerController.Instance.AddLivingData(data);
             Gate.Out();
         }
 
