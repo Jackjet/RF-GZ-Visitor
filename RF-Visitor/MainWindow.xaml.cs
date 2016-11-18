@@ -52,7 +52,7 @@ namespace RF_Visitor
         {
             var appName = System.Windows.Forms.Application.ProductName;
             var executePath = System.Windows.Forms.Application.ExecutablePath;
-            Utility.runWhenStart(true, appName, executePath);
+            Utility.runWhenStart(false, appName, executePath);
         }
 
         private void btnIn_Click(object sender, RoutedEventArgs e)

@@ -169,12 +169,11 @@ namespace RF_GateServer.Core
 
             var data = GetLivingData(this.OutIp, qrcode, 0, 456);
             ComServerController.Instance.AddLivingData(data);
-            Gate.Out();
+            //Gate.Out();
         }
 
         public void Stop()
         {
-
         }
 
         private LivingData GetLivingData(string ip, string qrcode, int status, int elapsed)

@@ -141,9 +141,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="comserver.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="comserver.xml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="dll\Common.dll" />

@@ -62,7 +62,7 @@
                Content="名称：" />
         <TextBox Grid.Row="1"
                  Grid.Column="2"
-                 Text="{Binding ChannelName}" />
+                 Text="{Binding Name}" />
 
         <Label Grid.Row="2"
                Grid.Column="1"
@@ -104,7 +104,7 @@
                Content="区域名称：" />
         <TextBox Grid.Row="7"
                  Grid.Column="2"
-                 Text="{Binding AreaName}" />
+                 Text="{Binding Area}" />
 
         <StackPanel Grid.Row="8"
                     Grid.Column="2"

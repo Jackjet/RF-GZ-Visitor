@@ -111,7 +111,7 @@ namespace RF_GateServer
             }
             else
             {
-                if (!channel.OutIp.IsIPAddress())
+                if (!channel.GateIp.IsIPAddress())
                 {
                     CustomDialog.Show("请输入正确的IP地址格式！");
                     return;

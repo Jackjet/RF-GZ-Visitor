@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace RF_GateServer.Core
 {
@@ -78,7 +79,10 @@ namespace RF_GateServer.Core
             }
 
             data.Index = index.ToString("d3");
-            LivingDataCollection.Insert(0, data);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                LivingDataCollection.Insert(0, data);
+            });
             index++;
         }
 

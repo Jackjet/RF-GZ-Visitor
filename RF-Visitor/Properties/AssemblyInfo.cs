@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("RF-Visitor")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("obria")]
 [assembly: AssemblyProduct("RF-Visitor")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
