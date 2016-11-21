@@ -23,12 +23,13 @@ using System.ComponentModel;
 namespace RF_GateServer
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// 网络串口监控服务器
     /// </summary>
     public partial class MainWindow : Window
     {
         private const string stopService_tip = "确定停止服务吗？";
         private const string deleteChannel_tip = "确认删除选中的通道吗？";
+
         public MainWindow()
         {
             InitializeComponent();
@@ -52,7 +53,7 @@ namespace RF_GateServer
         {
             if (e.Key == Key.F2)
             {
-                ServerListWindow server = new RF_GateServer.ServerListWindow();
+                ServerListWindow server = new ServerListWindow();
                 server.Show();
             }
         }
