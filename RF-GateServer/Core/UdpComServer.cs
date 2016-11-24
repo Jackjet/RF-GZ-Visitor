@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common.Log;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -11,14 +12,16 @@ namespace RF_GateServer.Core
 {
     class UdpComServer
     {
+        private int port = 0;
+        private bool isRunning = true;
         private UdpClient server = null;
-        private IPEndPoint remoteEndPoint = null;
         private Thread workThread = null;
-        private bool isRun = true;
-        public event MessageCommingEventHandler OnMessageInComming;
+        private IPEndPoint remoteEndPoint = null;
+        public event EventHandler<MessageEventArgs> OnMessageInComming;
 
         public UdpComServer(int port)
         {
+            this.port = port;
             server = new UdpClient(port, AddressFamily.InterNetwork);
         }
 
@@ -26,21 +29,31 @@ namespace RF_GateServer.Core
         {
             workThread = new Thread(Listen);
             workThread.Start();
+            LogHelper.Info("启动通讯服务->" + port);
         }
 
         private void Listen()
         {
-            while (isRun)
+            while (isRunning)
             {
                 try
                 {
-                    var data = server.Receive(ref remoteEndPoint);
+                    var buffer = server.Receive(ref remoteEndPoint);
                     var remoteIp = remoteEndPoint.Address.ToString();
-                    var qrcode = Encoding.UTF8.GetString(data, 0, data.Length);
+                    var data = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
                     ThreadPool.QueueUserWorkItem((s) =>
                     {
                         if (OnMessageInComming != null)
-                            OnMessageInComming(remoteIp, qrcode);
+                        {
+                            OnMessageInComming(this,
+                            new MessageEventArgs
+                            {
+                                Ip = remoteIp,
+                                IsHeart = data.Length < 10,
+                                IsQrcode = data.Length > 10,
+                                Data = data
+                            });
+                        }
                     });
                 }
                 catch
@@ -51,13 +64,13 @@ namespace RF_GateServer.Core
 
         public void Stop()
         {
-            isRun = false;
+            isRunning = false;
             if (server != null)
             {
                 server.Close();
             }
+            workThread?.Abort();
+            workThread = null;
         }
     }
-
-    public delegate void MessageCommingEventHandler(string ip, string qrcode);
 }

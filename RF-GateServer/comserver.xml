@@ -7,7 +7,7 @@
     <itemId>1</itemId>
     <communityId>1</communityId>
     <in>192.168.1.20</in>
-    <out>192.168.1.21</out>
+    <out></out>
     <gate>192.168.1.52</gate>
   </channel>
 </channels>

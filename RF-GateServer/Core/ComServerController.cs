@@ -1,4 +1,5 @@
-﻿using RF_GateServer.Gate;
+﻿using Common.NotifyBase;
+using RF_GateServer.Gate;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,16 +11,16 @@ using System.Windows;
 
 namespace RF_GateServer.Core
 {
-    class ComServerController
+    class ComServerController : PropertyNotifyObject
     {
+        private int ComServerPort = 9876;
         private UdpComServer udpServer = null;
-        private const int ComServerPort = 9876;
-        public ObservableCollection<Channel> Channels = null;
         private static ComServerController _instance = new ComServerController();
 
         private ComServerController()
         {
             LivingDataCollection = new ObservableCollection<LivingData>();
+            ComServerPort = ConfigProfile.ListenPort;
         }
 
         public static ComServerController Instance
@@ -30,37 +31,70 @@ namespace RF_GateServer.Core
             }
         }
 
+        public bool IsRunning
+        {
+            get; set;
+        }
+
+        public ObservableCollection<Channel> Channels
+        {
+            get { return this.GetValue(s => s.Channels); }
+            set { this.SetValue(s => s.Channels, value); }
+        }
+
         public ObservableCollection<LivingData> LivingDataCollection
         {
             get;
             set;
         }
 
-
         public void Run()
         {
             Channels = MapReader.Read();
+
             foreach (var channel in Channels)
             {
                 channel.SetGate(new MegviiGate(channel.GateIp));
+                channel.Init();
             }
 
-            udpServer = new Core.UdpComServer(ComServerPort);
+            udpServer = new UdpComServer(ComServerPort);
             udpServer.OnMessageInComming += UdpServer_OnMessageInComming;
             udpServer.Start();
+            IsRunning = true;
         }
 
-        private void UdpServer_OnMessageInComming(string ip, string qrcode)
+        private void UdpServer_OnMessageInComming(object sender, MessageEventArgs e)
         {
-            var inchannel = Channels.FirstOrDefault(s => s.InIp == ip);
-            if (inchannel != null)
+            if (e.IsHeart)
             {
-                inchannel.CheckIn(qrcode);
+                var ip = e.Ip;
+                var qrcode = e.Data;
+                var inchannel = Channels.FirstOrDefault(s => s.InIp == ip);
+                if (inchannel != null)
+                {
+                    inchannel.UpdateInHeartBeat();
+                }
+                var outchannel = Channels.FirstOrDefault(s => s.OutIp == ip);
+                if (outchannel != null)
+                {
+                    outchannel.UpdateOutHeartBeat();
+                }
             }
-            var outchannel = Channels.FirstOrDefault(s => s.OutIp == ip);
-            if (outchannel != null)
+            else
             {
-                outchannel.CheckOut(qrcode);
+                var ip = e.Ip;
+                var qrcode = e.Data;
+                var inchannel = Channels.FirstOrDefault(s => s.InIp == ip);
+                if (inchannel != null)
+                {
+                    inchannel.CheckIn(qrcode);
+                }
+                var outchannel = Channels.FirstOrDefault(s => s.OutIp == ip);
+                if (outchannel != null)
+                {
+                    outchannel.CheckOut(qrcode);
+                }
             }
         }
 
@@ -88,7 +122,13 @@ namespace RF_GateServer.Core
 
         public void Stop()
         {
+            IsRunning = false;
             udpServer?.Stop();
+            udpServer = null;
+            foreach (var channel in Channels)
+            {
+                channel.Stop();
+            }
         }
     }
 }

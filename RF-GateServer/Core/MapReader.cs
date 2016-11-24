@@ -7,55 +7,51 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace RF_GateServer.Core
 {
     sealed class MapReader
     {
-        private static readonly string filename = "comserver.xml";
+        private static readonly string filePath = "comserver.xml";
 
         private const string xPathchannel = "/channels/channel";
         private const string xPathchannels = "/channels";
 
         public static ObservableCollection<Channel> Read()
         {
-            XmlDocument doc = new XmlDocument();
-            doc.Load(filename);
-
-            var servers = doc.SelectNodes(xPathchannel);
-            if (servers.Count == 0)
-                return new ObservableCollection<Core.Channel>();
-
-            return ConvertToList(servers);
+            XElement doc = XElement.Load(filePath);
+            var channelList = (from n in doc.Elements("channel") select n).ToList();
+            return ConvertToList(channelList);
         }
 
-        private static ObservableCollection<Channel> ConvertToList(XmlNodeList nodeList)
+        private static ObservableCollection<Channel> ConvertToList(List<XElement> nodeList)
         {
             ObservableCollection<Channel> list = new ObservableCollection<Channel>();
-            foreach (XmlNode item in nodeList)
+            foreach (XElement element in nodeList)
             {
-                var channel = NodeToChannel(item);
+                var channel = ElementToChannel(element);
                 list.Add(channel);
             }
             return list;
         }
 
-        private static Channel NodeToChannel(XmlNode item)
+        private static Channel ElementToChannel(XElement element)
         {
             Channel channel = new Core.Channel();
-            channel.Index = item.SelectSingleNode("index").InnerText;
-            channel.Name = item.SelectSingleNode("name").InnerText;
-            channel.Area = item.SelectSingleNode("areaName").InnerText;
-            channel.ItemId = item.SelectSingleNode("itemId").InnerText;
-            channel.CommunityId = item.SelectSingleNode("communityId").InnerText;
+            channel.Index = element.Element("index").Value;
+            channel.Name = element.Element("name").Value;
+            channel.Area = element.Element("areaName").Value;
+            channel.ItemId = element.Element("itemId").Value;
+            channel.CommunityId = element.Element("communityId").Value;
 
-            var inIp = item.SelectSingleNode("in").InnerText;
+            var inIp = element.Element("in").Value;
             channel.InIp = inIp;
 
-            var outIp = item.SelectSingleNode("out").InnerText;
+            var outIp = element.Element("out").Value;
             channel.OutIp = outIp;
 
-            var gateIp = item.SelectSingleNode("gate").InnerText;
+            var gateIp = element.Element("gate").Value;
             channel.GateIp = gateIp;
             return channel;
         }
@@ -63,7 +59,7 @@ namespace RF_GateServer.Core
         public static void Save(Channel channel)
         {
             XmlDocument doc = new XmlDocument();
-            doc.Load(filename);
+            doc.Load(filePath);
 
             var root = doc.SelectSingleNode(xPathchannels);
 
@@ -102,13 +98,13 @@ namespace RF_GateServer.Core
             nodeGate.InnerText = channel.GateIp;
             server.AppendChild(nodeGate);
 
-            doc.Save(filename);
+            doc.Save(filePath);
         }
 
         public static void Delete(string index)
         {
             XmlDocument doc = new XmlDocument();
-            doc.Load(filename);
+            doc.Load(filePath);
 
             var parent = doc.SelectSingleNode("/channels");
             var path = "/channels/channel[index='" + index + "']";
@@ -117,7 +113,7 @@ namespace RF_GateServer.Core
             {
                 parent.RemoveChild(node);
             }
-            doc.Save(filename);
+            doc.Save(filePath);
         }
     }
 }

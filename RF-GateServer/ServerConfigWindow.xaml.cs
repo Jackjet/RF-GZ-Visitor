@@ -23,10 +23,12 @@ namespace RF_GateServer
     /// </summary>
     public partial class ServerConfigWindow : Window
     {
+        private bool isNew = false;
         private Channel channel = null;
-        public ServerConfigWindow(Channel channel)
+        public ServerConfigWindow(Channel channel, bool isNew)
         {
             InitializeComponent();
+            this.isNew = isNew;
             this.channel = channel;
             this.DataContext = channel;
         }
@@ -54,11 +56,6 @@ namespace RF_GateServer
                     return;
                 }
             }
-            if (channel.Area.IsEmpty())
-            {
-                CustomDialog.Show("请输入区域名称！");
-                return;
-            }
             if (channel.Name.IsEmpty())
             {
                 CustomDialog.Show("请输入通道名称！");
@@ -72,6 +69,22 @@ namespace RF_GateServer
                     return;
                 }
             }
+            if (channel.Area.IsEmpty())
+            {
+                CustomDialog.Show("请输入区域名称！");
+                return;
+            }
+            if (channel.CommunityId.IsEmpty())
+            {
+                CustomDialog.Show("请输入社区Id！");
+                return;
+            }
+            if (channel.ItemId.IsEmpty())
+            {
+                CustomDialog.Show("请输入通道Id！");
+                return;
+            }
+
             if (channel.InIp.IsEmpty() && channel.OutIp.IsEmpty())
             {
                 CustomDialog.Show("至少输入一个IP地址！");
@@ -122,29 +135,58 @@ namespace RF_GateServer
 
         private bool CheckIndexExists(string index)
         {
-            var channel = ComServerController.Instance.Channels.FirstOrDefault(s => s.Index == index);
-            if (channel != null)
-                return true;
+            if (isNew)
+            {
+                var channel = ComServerController.Instance.Channels.FirstOrDefault(s => s.Index == index);
+                if (channel != null)
+                    return true;
+                else
+                    return false;
+            }
             else
+            {
                 return false;
+            }
         }
 
         private bool CheckNameExists(string name)
         {
-            var channel = ComServerController.Instance.Channels.FirstOrDefault(s => s.Name == name);
-            if (channel != null)
-                return true;
+            if (isNew)
+            {
+                var channel = ComServerController.Instance.Channels.FirstOrDefault(s => s.Name == name);
+                if (channel != null)
+                    return true;
+                else
+                    return false;
+            }
             else
-                return false;
+            {
+                var channel = ComServerController.Instance.Channels.FirstOrDefault(s => s.Index != Channel.Index && s.Name == name);
+                if (channel != null)
+                    return true;
+                else
+                    return false;
+            }
         }
 
         private bool CheckIPExists(string ip)
         {
-            var channel = ComServerController.Instance.Channels.FirstOrDefault(s => s.InIp == ip || s.OutIp == ip);
-            if (channel != null)
-                return true;
+            if (isNew)
+            {
+                var channel = ComServerController.Instance.Channels.FirstOrDefault(s => s.InIp == ip || s.OutIp == ip);
+                if (channel != null)
+                    return true;
+                else
+                    return false;
+            }
             else
-                return false;
+            {
+                var channel = ComServerController.Instance.Channels.FirstOrDefault(s => s.Index != Channel.Index && s.InIp == ip);
+                if (channel != null)
+                    return true;
+                else
+                    return false;
+            }
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)

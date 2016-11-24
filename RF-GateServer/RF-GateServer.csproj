@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>server.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -45,6 +48,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Activities" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -71,15 +75,15 @@
     </ApplicationDefinition>
     <Compile Include="Core\Channel.cs" />
     <Compile Include="Core\ComServerController.cs" />
+    <Compile Include="Core\ConfigProfile.cs" />
+    <Compile Include="Core\Define.cs" />
+    <Compile Include="Core\HeartBeat.cs" />
     <Compile Include="Core\LivingData.cs" />
     <Compile Include="Core\MapReader.cs" />
     <Compile Include="Core\UdpComServer.cs" />
-    <Compile Include="Ext.cs" />
+    <Compile Include="Core\Ext.cs" />
     <Compile Include="ServerConfigWindow.xaml.cs">
       <DependentUpon>ServerConfigWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ServerListWindow.xaml.cs">
-      <DependentUpon>ServerListWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\ServerViewModel.cs" />
     <Page Include="general.xaml">
@@ -94,8 +98,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Core\IQRReader.cs" />
-    <Compile Include="Core\WeiGuangQRReader.cs" />
     <Compile Include="Gate\IGate.cs" />
     <Compile Include="Gate\MegviiGate.cs" />
     <Compile Include="Gate\UdpSocket.cs" />
@@ -104,10 +106,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ServerConfigWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ServerListWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -141,11 +139,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="comserver.xml" />
+    <None Include="comserver.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="dll\Common.dll" />
     <Content Include="dll\Iaspec.Net.Common.dll" />
+    <Resource Include="Images\exit.ico" />
+    <Resource Include="Images\exit.png" />
+    <Resource Include="server.ico" />
+    <Resource Include="server.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

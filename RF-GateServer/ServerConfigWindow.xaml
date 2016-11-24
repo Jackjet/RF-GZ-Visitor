@@ -8,6 +8,7 @@
         Width="600"
         Height="400"
         FocusManager.FocusedElement="{Binding ElementName=txtNo}"
+        ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
     <Window.Resources>
@@ -45,7 +46,7 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
-            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="110" />
             <ColumnDefinition Width="auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
@@ -53,7 +54,8 @@
         <Label Grid.Row="0"
                Grid.Column="1"
                Content="序号：" />
-        <TextBox Grid.Row="0"
+        <TextBox Name="txtNo"
+                 Grid.Row="0"
                  Grid.Column="2"
                  Text="{Binding Index}" />
 
@@ -66,45 +68,45 @@
 
         <Label Grid.Row="2"
                Grid.Column="1"
-               Content="ItemId：" />
+               Content="区域名称：" />
         <TextBox Grid.Row="2"
                  Grid.Column="2"
-                 Text="{Binding ItemId}" />
+                 Text="{Binding Area}" />
 
         <Label Grid.Row="3"
                Grid.Column="1"
-               Content="CommunityId：" />
+               Content="通道Id：" />
         <TextBox Grid.Row="3"
                  Grid.Column="2"
-                 Text="{Binding CommunityId}" />
+                 Text="{Binding ItemId}" />
 
         <Label Grid.Row="4"
                Grid.Column="1"
-               Content="入IP：" />
+               Content="社区Id：" />
         <TextBox Grid.Row="4"
                  Grid.Column="2"
-                 Text="{Binding InIp}" />
+                 Text="{Binding CommunityId}" />
 
         <Label Grid.Row="5"
                Grid.Column="1"
-               Content="出IP：" />
+               Content="入IP：" />
         <TextBox Grid.Row="5"
                  Grid.Column="2"
-                 Text="{Binding OutIp}" />
+                 Text="{Binding InIp}" />
 
         <Label Grid.Row="6"
                Grid.Column="1"
-               Content="网络继电器IP：" />
+               Content="出IP：" />
         <TextBox Grid.Row="6"
                  Grid.Column="2"
-                 Text="{Binding GateIp}" />
+                 Text="{Binding OutIp}" />
 
         <Label Grid.Row="7"
                Grid.Column="1"
-               Content="区域名称：" />
+               Content="网络继电器IP：" />
         <TextBox Grid.Row="7"
                  Grid.Column="2"
-                 Text="{Binding Area}" />
+                 Text="{Binding GateIp}" />
 
         <StackPanel Grid.Row="8"
                     Grid.Column="2"

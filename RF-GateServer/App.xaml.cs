@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Common.Dialog;
+using RF_GateServer.Core;
 
 namespace RF_GateServer
 {
@@ -21,6 +22,7 @@ namespace RF_GateServer
             var metux = new Mutex(true, "rf-server", out create);
             if (create)
             {
+                ConfigProfile.ReadConfig();
                 MainWindow window = new RF_GateServer.MainWindow();
                 Application.Current.MainWindow = window;
                 Application.Current.MainWindow.ShowDialog();

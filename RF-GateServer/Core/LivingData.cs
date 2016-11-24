@@ -10,14 +10,23 @@ namespace RF_GateServer.Core
     class LivingData
     {
         public string Index { get; set; }
+
         public string Area { get; set; }
+
         public string Name { get; set; }
+
         public string ItemId { get; set; }
+
         public string CommunityId { get; set; }
+
         public string IP { get; set; }
+
         public string DateTime { get; set; }
+
         public string Elapsed { get; set; }
+
         public string Status { get; set; }
+
         public string QRCode { get; set; }
     }
 }

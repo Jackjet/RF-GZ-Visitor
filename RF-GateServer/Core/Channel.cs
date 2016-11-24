@@ -20,8 +20,6 @@ namespace RF_GateServer.Core
 
         public Channel()
         {
-            InLastTime = "未知";
-            OutLastTime = "未知";
         }
 
         /// <summary>
@@ -79,20 +77,36 @@ namespace RF_GateServer.Core
             get { return this.GetValue(s => s.GateIp); }
             set { this.SetValue(s => s.GateIp, value); }
         }
-        /// <summary>
-        /// 入
-        /// </summary>
-        public IQRReader InReader
+
+        public string CommunicateInState
         {
-            get; set;
+            get { return this.GetValue(s => s.CommunicateInState); }
+            set { this.SetValue(s => s.CommunicateInState, value); }
         }
-        /// <summary>
-        /// 出
-        /// </summary>
-        public IQRReader OutReader
+
+        public string CommunicateOutState
         {
-            get; set;
+            get { return this.GetValue(s => s.CommunicateOutState); }
+            set { this.SetValue(s => s.CommunicateOutState, value); }
         }
+
+        #region connect
+        ///// <summary>
+        ///// 入
+        ///// </summary>
+        //public IQRReader InReader
+        //{
+        //    get; set;
+        //}
+        ///// <summary>
+        ///// 出
+        ///// </summary>
+        //public IQRReader OutReader
+        //{
+        //    get; set;
+        //} 
+        #endregion
+
         /// <summary>
         /// 继电器
         /// </summary>
@@ -101,41 +115,16 @@ namespace RF_GateServer.Core
             get; set;
         }
 
-        public string InLastTime
+        public DateTime? InLastTime
         {
             get { return this.GetValue(s => s.InLastTime); }
             set { this.SetValue(s => s.InLastTime, value); }
         }
 
-        public string OutLastTime
+        public DateTime? OutLastTime
         {
             get { return this.GetValue(s => s.OutLastTime); }
             set { this.SetValue(s => s.OutLastTime, value); }
-        }
-
-        public async void Connect()
-        {
-            var task = Task.Factory.StartNew(() =>
-            {
-                //if (InReader != null)
-                //{
-                //    var connect_in = InReader.Connect();
-                //    if (connect_in)
-                //    {
-                //        InReader.BeginRead(InReaderCallback);
-                //    }
-                //}
-
-                //if (OutReader != null)
-                //{
-                //    var connect_out = OutReader.Connect();
-                //    if (connect_out)
-                //    {
-                //        OutReader.BeginRead(OutReaderCallback);
-                //    }
-                //}
-            });
-            await task;
         }
 
         public void SetGate(IGate gate)
@@ -143,20 +132,33 @@ namespace RF_GateServer.Core
             this.Gate = gate;
         }
 
-        private void InReaderCallback(string ip, string qrcode)
+        public void Init()
         {
-            Console.Out.WriteLine("in ip->" + ip + " qrcode->" + qrcode);
-            CheckIn(qrcode);
+            if (!InIp.IsEmpty())
+            {
+                InLastTime = null;
+                CommunicateInState = "未知";
+            }
+
+            if (!OutIp.IsEmpty())
+            {
+                OutLastTime = null;
+                CommunicateOutState = "未知";
+            }
         }
-        private void OutReaderCallback(string ip, string qrcode)
+
+        public void Stop()
         {
-            Console.Out.WriteLine("out ip->" + ip + " qrcode->" + qrcode);
-            CheckOut(qrcode);
+            if (!InIp.IsEmpty())
+                CommunicateInState = "停止";
+
+            if (!OutIp.IsEmpty())
+                CommunicateOutState = "停止";
         }
 
         public void CheckIn(string qrcode)
         {
-            InLastTime = DateTime.Now.ToStandard();
+            InLastTime = DateTime.Now;
 
             var data = GetLivingData(this.InIp, qrcode, 1, 123);
             ComServerController.Instance.AddLivingData(data);
@@ -165,15 +167,31 @@ namespace RF_GateServer.Core
 
         public void CheckOut(string qrcode)
         {
-            OutLastTime = DateTime.Now.ToStandard();
+            OutLastTime = DateTime.Now;
 
             var data = GetLivingData(this.OutIp, qrcode, 0, 456);
             ComServerController.Instance.AddLivingData(data);
             //Gate.Out();
         }
 
-        public void Stop()
+        public void UpdateInHeartBeat()
         {
+            InLastTime = DateTime.Now;
+        }
+
+        public void UpdateOutHeartBeat()
+        {
+            OutLastTime = DateTime.Now;
+        }
+
+        public void SetInError()
+        {
+            CommunicateInState = "异常";
+        }
+
+        public void SetOutError()
+        {
+            CommunicateOutState = "异常";
         }
 
         private LivingData GetLivingData(string ip, string qrcode, int status, int elapsed)

@@ -27,7 +27,9 @@ namespace RF_GateServer
     /// </summary>
     public partial class MainWindow : Window
     {
+        private const string exit_tip = "确认退出系统吗？";
         private const string stopService_tip = "确定停止服务吗？";
+        private const string restartService_tip = "确定启动服务吗？";
         private const string deleteChannel_tip = "确认删除选中的通道吗？";
 
         public MainWindow()
@@ -38,6 +40,12 @@ namespace RF_GateServer
 
         protected override void OnClosing(CancelEventArgs e)
         {
+            var confirm = CustomDialog.Confirm(exit_tip);
+            if (confirm == MessageBoxResult.No)
+            {
+                e.Cancel = true;
+                return;
+            }
             ComServerController.Instance.Stop();
             base.OnClosing(e);
         }
@@ -45,42 +53,16 @@ namespace RF_GateServer
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             ComServerController.Instance.Run();
-            dgChannel.ItemsSource = ComServerController.Instance.Channels;
-            dgLiving.ItemsSource = ComServerController.Instance.LivingDataCollection;
-        }
-
-        private void WindowKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.F2)
-            {
-                ServerListWindow server = new ServerListWindow();
-                server.Show();
-            }
+            this.DataContext = ComServerController.Instance;
         }
 
         private void btnConnectReader_click(object sender, RoutedEventArgs e)
         {
-            ConnectReader();
-        }
-
-        private void ConnectReader()
-        {
-            ComServerController.Instance.Channels[0].CheckIn("123");
-            ComServerController.Instance.Channels[1].CheckOut("456");
-        }
-
-        private void btnStopServer_click(object sender, RoutedEventArgs e)
-        {
-            if (CustomDialog.Confirm(stopService_tip) == MessageBoxResult.No)
-            {
-                return;
-            }
-            ComServerController.Instance.Stop();
         }
 
         private void btnAddChannel_click(object sender, RoutedEventArgs e)
         {
-            ServerConfigWindow config = new ServerConfigWindow(new Channel());
+            ServerConfigWindow config = new ServerConfigWindow(new Channel(), true);
             var dialog = config.ShowDialog().Value;
             if (dialog)
             {
@@ -103,6 +85,45 @@ namespace RF_GateServer
             Channel channel = (Channel)dgChannel.SelectedItem;
             MapReader.Delete(channel.Index);
             ComServerController.Instance.RemoveChannel(channel);
+        }
+
+        private void dgChannel_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (dgChannel.SelectedItem == null)
+            {
+                return;
+            }
+            var channel = (Channel)dgChannel.SelectedItem;
+            ServerConfigWindow config = new ServerConfigWindow(channel, false);
+            var dialog = config.ShowDialog().Value;
+            if (dialog)
+            {
+
+            }
+        }
+
+        private void btnStopServer_click(object sender, RoutedEventArgs e)
+        {
+            if (ComServerController.Instance.IsRunning)
+            {
+                //运行状态
+                if (CustomDialog.Confirm(stopService_tip) == MessageBoxResult.No)
+                {
+                    return;
+                }
+                ComServerController.Instance.Stop();
+                miService.Header = "启动服务";
+            }
+            else
+            {
+                //停止状态
+                if (CustomDialog.Confirm(restartService_tip) == MessageBoxResult.No)
+                {
+                    return;
+                }
+                ComServerController.Instance.Run();
+                miService.Header = "停止服务";
+            }
         }
 
         private void btnExit_click(object sender, RoutedEventArgs e)
