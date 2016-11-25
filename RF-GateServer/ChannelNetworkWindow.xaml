@@ -1,0 +1,74 @@
+﻿<Window x:Class="RF_GateServer.ChannelNetworkWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:RF_GateServer"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Title="历史纪录"
+        Width="600"
+        Height="400"
+        mc:Ignorable="d">
+    <Window.Resources>
+
+        <DataTemplate x:Key="Name">
+            <Label VerticalContentAlignment="Center" Content="{Binding Name}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="IP">
+            <Label VerticalContentAlignment="Center" Content="{Binding Ip}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="ChannelType">
+            <Label VerticalContentAlignment="Center" Content="{Binding ChannelType}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="DisconnectTime">
+            <TextBlock VerticalAlignment="Center" Text="{Binding DisconnectTime, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="ConnectTime">
+            <TextBlock VerticalAlignment="Center" Text="{Binding ConnectTime, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" />
+        </DataTemplate>
+
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <Border BorderBrush="Red" BorderThickness="1">
+            <StackPanel Orientation="Horizontal">
+
+                <Label Content="IP：" />
+                <TextBox Name="txtIp" />
+                <Button Name="btnSearch"
+                        Click="btnSearch_click"
+                        Content="查询" />
+            </StackPanel>
+        </Border>
+
+        <GroupBox Grid.Row="1" Header="历史纪录">
+            <DataGrid Name="dgHistory">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Width="120"
+                                            CellTemplate="{StaticResource Name}"
+                                            Header="名称" />
+                    <DataGridTemplateColumn Width="120"
+                                            CellTemplate="{StaticResource IP}"
+                                            Header="IP地址" />
+                    <DataGridTemplateColumn Width="120"
+                                            CellTemplate="{StaticResource ChannelType}"
+                                            Header="类型" />
+                    <DataGridTemplateColumn Width="150"
+                                            CellTemplate="{StaticResource DisconnectTime}"
+                                            Header="断开时间" />
+                    <DataGridTemplateColumn Width="150"
+                                            CellTemplate="{StaticResource ConnectTime}"
+                                            Header="重连时间" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+    </Grid>
+</Window>

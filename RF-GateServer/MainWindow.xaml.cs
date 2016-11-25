@@ -19,6 +19,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Common.Dialog;
 using System.ComponentModel;
+using RF_GateServer.DataManager;
 
 namespace RF_GateServer
 {
@@ -46,18 +47,21 @@ namespace RF_GateServer
                 e.Cancel = true;
                 return;
             }
-            ComServerController.Instance.Stop();
+            ComServerController.Current.Stop();
             base.OnClosing(e);
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            ComServerController.Instance.Run();
-            this.DataContext = ComServerController.Instance;
+            SQLite.Current.Init();
+            ComServerController.Current.Run();
+            this.DataContext = ComServerController.Current;
         }
 
         private void btnConnectReader_click(object sender, RoutedEventArgs e)
         {
+            ChannelNetworkWindow window = new RF_GateServer.ChannelNetworkWindow();
+            window.ShowDialog();
         }
 
         private void btnAddChannel_click(object sender, RoutedEventArgs e)
@@ -66,7 +70,7 @@ namespace RF_GateServer
             var dialog = config.ShowDialog().Value;
             if (dialog)
             {
-                ComServerController.Instance.Channels.Add(config.Channel);
+                ComServerController.Current.Channels.Add(config.Channel);
                 MapReader.Save(config.Channel);
             }
         }
@@ -84,7 +88,7 @@ namespace RF_GateServer
 
             Channel channel = (Channel)dgChannel.SelectedItem;
             MapReader.Delete(channel.Index);
-            ComServerController.Instance.RemoveChannel(channel);
+            ComServerController.Current.RemoveChannel(channel);
         }
 
         private void dgChannel_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -104,14 +108,14 @@ namespace RF_GateServer
 
         private void btnStopServer_click(object sender, RoutedEventArgs e)
         {
-            if (ComServerController.Instance.IsRunning)
+            if (ComServerController.Current.IsRunning)
             {
                 //运行状态
                 if (CustomDialog.Confirm(stopService_tip) == MessageBoxResult.No)
                 {
                     return;
                 }
-                ComServerController.Instance.Stop();
+                ComServerController.Current.Stop();
                 miService.Header = "启动服务";
             }
             else
@@ -121,7 +125,7 @@ namespace RF_GateServer
                 {
                     return;
                 }
-                ComServerController.Instance.Run();
+                ComServerController.Current.Run();
                 miService.Header = "停止服务";
             }
         }

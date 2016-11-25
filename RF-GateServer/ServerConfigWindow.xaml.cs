@@ -137,7 +137,7 @@ namespace RF_GateServer
         {
             if (isNew)
             {
-                var channel = ComServerController.Instance.Channels.FirstOrDefault(s => s.Index == index);
+                var channel = ComServerController.Current.Channels.FirstOrDefault(s => s.Index == index);
                 if (channel != null)
                     return true;
                 else
@@ -153,7 +153,7 @@ namespace RF_GateServer
         {
             if (isNew)
             {
-                var channel = ComServerController.Instance.Channels.FirstOrDefault(s => s.Name == name);
+                var channel = ComServerController.Current.Channels.FirstOrDefault(s => s.Name == name);
                 if (channel != null)
                     return true;
                 else
@@ -161,7 +161,7 @@ namespace RF_GateServer
             }
             else
             {
-                var channel = ComServerController.Instance.Channels.FirstOrDefault(s => s.Index != Channel.Index && s.Name == name);
+                var channel = ComServerController.Current.Channels.FirstOrDefault(s => s.Index != Channel.Index && s.Name == name);
                 if (channel != null)
                     return true;
                 else
@@ -173,7 +173,7 @@ namespace RF_GateServer
         {
             if (isNew)
             {
-                var channel = ComServerController.Instance.Channels.FirstOrDefault(s => s.InIp == ip || s.OutIp == ip);
+                var channel = ComServerController.Current.Channels.FirstOrDefault(s => s.InIp == ip || s.OutIp == ip);
                 if (channel != null)
                     return true;
                 else
@@ -181,7 +181,7 @@ namespace RF_GateServer
             }
             else
             {
-                var channel = ComServerController.Instance.Channels.FirstOrDefault(s => s.Index != Channel.Index && s.InIp == ip);
+                var channel = ComServerController.Current.Channels.FirstOrDefault(s => s.Index != Channel.Index && s.InIp == ip);
                 if (channel != null)
                     return true;
                 else

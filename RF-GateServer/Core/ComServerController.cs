@@ -19,11 +19,11 @@ namespace RF_GateServer.Core
 
         private ComServerController()
         {
-            LivingDataCollection = new ObservableCollection<LivingData>();
             ComServerPort = ConfigProfile.ListenPort;
+            LivingDataCollection = new ObservableCollection<LivingData>();
         }
 
-        public static ComServerController Instance
+        public static ComServerController Current
         {
             get
             {
@@ -62,39 +62,27 @@ namespace RF_GateServer.Core
             udpServer.OnMessageInComming += UdpServer_OnMessageInComming;
             udpServer.Start();
             IsRunning = true;
+
+            HeartBeat.Current.Start(Channels);
         }
 
         private void UdpServer_OnMessageInComming(object sender, MessageEventArgs e)
         {
-            if (e.IsHeart)
+            var ip = e.Ip;
+            var qrcode = e.Data;
+            var inchannel = Channels.FirstOrDefault(s => s.InIp == ip);
+            if (inchannel != null)
             {
-                var ip = e.Ip;
-                var qrcode = e.Data;
-                var inchannel = Channels.FirstOrDefault(s => s.InIp == ip);
-                if (inchannel != null)
-                {
-                    inchannel.UpdateInHeartBeat();
-                }
-                var outchannel = Channels.FirstOrDefault(s => s.OutIp == ip);
-                if (outchannel != null)
-                {
-                    outchannel.UpdateOutHeartBeat();
-                }
-            }
-            else
-            {
-                var ip = e.Ip;
-                var qrcode = e.Data;
-                var inchannel = Channels.FirstOrDefault(s => s.InIp == ip);
-                if (inchannel != null)
-                {
+                inchannel.ChangeInState();
+                if (e.IsQrcode)
                     inchannel.CheckIn(qrcode);
-                }
-                var outchannel = Channels.FirstOrDefault(s => s.OutIp == ip);
-                if (outchannel != null)
-                {
+            }
+            var outchannel = Channels.FirstOrDefault(s => s.OutIp == ip);
+            if (outchannel != null)
+            {
+                outchannel.ChangeOutState();
+                if (e.IsQrcode)
                     outchannel.CheckOut(qrcode);
-                }
             }
         }
 
@@ -129,6 +117,7 @@ namespace RF_GateServer.Core
             {
                 channel.Stop();
             }
+            HeartBeat.Current.Stop();
         }
     }
 }

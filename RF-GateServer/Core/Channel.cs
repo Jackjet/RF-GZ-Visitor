@@ -1,5 +1,6 @@
 ﻿using Common;
 using Common.NotifyBase;
+using RF_GateServer.DataManager;
 using RF_GateServer.Gate;
 using System;
 using System.Collections.Generic;
@@ -137,61 +138,107 @@ namespace RF_GateServer.Core
             if (!InIp.IsEmpty())
             {
                 InLastTime = null;
-                CommunicateInState = "未知";
+                CommunicateInState = ChannelState.State_Unknow;
             }
 
             if (!OutIp.IsEmpty())
             {
                 OutLastTime = null;
-                CommunicateOutState = "未知";
+                CommunicateOutState = ChannelState.State_Unknow;
             }
         }
 
         public void Stop()
         {
             if (!InIp.IsEmpty())
-                CommunicateInState = "停止";
+                CommunicateInState = ChannelState.State_Stop;
 
             if (!OutIp.IsEmpty())
-                CommunicateOutState = "停止";
+                CommunicateOutState = ChannelState.State_Stop;
         }
 
         public void CheckIn(string qrcode)
         {
-            InLastTime = DateTime.Now;
-
             var data = GetLivingData(this.InIp, qrcode, 1, 123);
-            ComServerController.Instance.AddLivingData(data);
+            ComServerController.Current.AddLivingData(data);
             Gate.In();
         }
 
         public void CheckOut(string qrcode)
         {
-            OutLastTime = DateTime.Now;
-
             var data = GetLivingData(this.OutIp, qrcode, 0, 456);
-            ComServerController.Instance.AddLivingData(data);
-            //Gate.Out();
+            ComServerController.Current.AddLivingData(data);
+            Gate.Out();
         }
 
-        public void UpdateInHeartBeat()
+        public void ChangeInState()
         {
+            if (CommunicateInState == ChannelState.State_Error)
+            {
+                SQLite.Current.ChannelConnect( InIp);
+            }
             InLastTime = DateTime.Now;
+            CommunicateInState = ChannelState.State_Ok;
         }
 
-        public void UpdateOutHeartBeat()
+        public void ChangeOutState()
         {
+            if (CommunicateOutState == ChannelState.State_Error)
+            {
+                SQLite.Current.ChannelConnect(OutIp);
+            }
             OutLastTime = DateTime.Now;
+            CommunicateOutState = ChannelState.State_Ok;
         }
 
-        public void SetInError()
+        private void SetInError()
         {
-            CommunicateInState = "异常";
+            CommunicateInState = ChannelState.State_Error;
+            SQLite.Current.ChannelDisconnect(Name, InIp, ChannelType.In);
         }
 
-        public void SetOutError()
+        private void SetOutError()
         {
-            CommunicateOutState = "异常";
+            CommunicateOutState = ChannelState.State_Error;
+            SQLite.Current.ChannelDisconnect(Name, OutIp, ChannelType.Out);
+        }
+
+        public void CheckInState(int interval)
+        {
+            if (InLastTime.HasValue)
+            {
+                if (CommunicateInState != ChannelState.State_Stop && CommunicateInState != ChannelState.State_Error)
+                {
+                    var ts = DateTime.Now - InLastTime.Value;
+                    if (ts.TotalSeconds > interval)
+                    {
+                        SetInError();
+                    }
+                }
+            }
+            else
+            {
+                SetInError();
+            }
+        }
+
+        public void CheckOutState(int interval)
+        {
+            if (OutLastTime.HasValue)
+            {
+                if (CommunicateOutState != ChannelState.State_Stop && CommunicateOutState != ChannelState.State_Error)
+                {
+                    var ts = DateTime.Now - OutLastTime.Value;
+                    if (ts.TotalSeconds > interval)
+                    {
+                        SetOutError();
+                    }
+                }
+            }
+            else
+            {
+                SetOutError();
+            }
         }
 
         private LivingData GetLivingData(string ip, string qrcode, int status, int elapsed)

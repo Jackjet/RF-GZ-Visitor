@@ -93,7 +93,7 @@
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Menu>
                 <MenuItem Header="操    作">
-                    <MenuItem Click="btnConnectReader_click" Header="初始化" />
+                    <MenuItem Click="btnConnectReader_click" Header="网络异常历史" />
                     <MenuItem Click="btnAddChannel_click" Header="添加通道" />
                     <MenuItem Click="btnDeleteChannel_click" Header="删除通道" />
                     <MenuItem Name="miService"
