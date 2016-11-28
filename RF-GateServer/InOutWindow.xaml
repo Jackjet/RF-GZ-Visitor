@@ -1,22 +1,18 @@
-﻿<Controls:MetroWindow x:Class="RF_GateServer.ChannelNetworkWindow"
+﻿<Controls:MetroWindow x:Class="RF_GateServer.InOutWindow"
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                       xmlns:local="clr-namespace:RF_GateServer"
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                      Title="通道网络异常记录"
+                      xmlns:thems="clr-namespace:Common.Controls;assembly=Common"
+                      Title="入、出记录"
                       Width="800"
                       Height="600"
                       ShowInTaskbar="False"
                       WindowStartupLocation="CenterScreen"
                       WindowTransitionsEnabled="False"
                       mc:Ignorable="d">
-    <Controls:MetroWindow.RightWindowCommands>
-        <Controls:WindowCommands>
-            <Button Click="btnSetting_click" Content="settings" />
-        </Controls:WindowCommands>
-    </Controls:MetroWindow.RightWindowCommands>
     <Window.Resources>
         <DataTemplate x:Key="Name">
             <Label HorizontalContentAlignment="Left"
@@ -36,12 +32,26 @@
                    Content="{Binding ChannelType}" />
         </DataTemplate>
 
-        <DataTemplate x:Key="DisconnectTime">
-            <TextBlock VerticalAlignment="Center" Text="{Binding DisconnectTime, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" />
+        <DataTemplate x:Key="ElapseTime">
+            <Label HorizontalContentAlignment="Left"
+                   VerticalContentAlignment="Center"
+                   Content="{Binding ElapseTime}" />
         </DataTemplate>
 
-        <DataTemplate x:Key="ConnectTime">
-            <TextBlock VerticalAlignment="Center" Text="{Binding ConnectTime, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" />
+        <DataTemplate x:Key="QRCode">
+            <Label HorizontalContentAlignment="Left"
+                   VerticalContentAlignment="Center"
+                   Content="{Binding QRCode}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="Status">
+            <Label HorizontalContentAlignment="Left"
+                   VerticalContentAlignment="Center"
+                   Content="{Binding Status}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="CheckTime">
+            <TextBlock VerticalAlignment="Center" Text="{Binding CheckTime, StringFormat={}{0:yyyy-MM-dd HH:mm:ss}}" />
         </DataTemplate>
 
     </Window.Resources>
@@ -56,9 +66,35 @@
                 BorderThickness="1"
                 CornerRadius="3">
             <StackPanel Orientation="Horizontal">
-                <Label Content="IP：" />
-                <TextBox Name="txtIp" Width="120" />
+                <Label Content="通道：" />
+                <ComboBox Name="cmbChannels"
+                          Width="120"
+                          Height="24" />
+
+                <Label Margin="10,0,0,0" Content="日期：" />
+                <thems:DateTimePicker Name="dtStart"
+                                      Height="24"
+                                      Checked="True"
+                                      CustomFormat="yyyy-MM-dd HH:mm:ss"
+                                      Format="Custom" />
+                <Label Margin="3,0" Content="至" />
+                <thems:DateTimePicker Name="dtEnd"
+                                      Height="24"
+                                      Checked="True"
+                                      CustomFormat="yyyy-MM-dd HH:mm:ss"
+                                      Format="Custom" />
+
+                <Label Margin="10,0,0,0" Content="类型：" />
+                <ComboBox Name="cmbType"
+                          Width="80"
+                          Height="24"
+                          SelectedIndex="0">
+                    <ComboBoxItem Content="全部" />
+                    <ComboBoxItem Content="入" />
+                    <ComboBoxItem Content="出" />
+                </ComboBox>
                 <Button Name="btnSearch"
+                        Margin="10,0"
                         Click="btnSearch_click"
                         Content="查询" />
             </StackPanel>
@@ -78,12 +114,18 @@
                     <DataGridTemplateColumn Width="120"
                                             CellTemplate="{StaticResource ChannelType}"
                                             Header="类型" />
+                    <DataGridTemplateColumn Width="120"
+                                            CellTemplate="{StaticResource Status}"
+                                            Header="授权" />
+                    <DataGridTemplateColumn Width="120"
+                                            CellTemplate="{StaticResource ElapseTime}"
+                                            Header="耗时" />
                     <DataGridTemplateColumn Width="150"
-                                            CellTemplate="{StaticResource DisconnectTime}"
-                                            Header="断开时间" />
-                    <DataGridTemplateColumn Width="150"
-                                            CellTemplate="{StaticResource ConnectTime}"
-                                            Header="重连时间" />
+                                            CellTemplate="{StaticResource CheckTime}"
+                                            Header="时间" />
+                    <DataGridTemplateColumn Width="*"
+                                            CellTemplate="{StaticResource QRCode}"
+                                            Header="二维码" />
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>

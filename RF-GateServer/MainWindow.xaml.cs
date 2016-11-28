@@ -58,9 +58,15 @@ namespace RF_GateServer
             this.DataContext = ComServerController.Current;
         }
 
+        private void btnInOut_click(object sender, RoutedEventArgs e)
+        {
+            InOutWindow inout = new InOutWindow();
+            inout.ShowDialog();
+        }
+
         private void btnConnectReader_click(object sender, RoutedEventArgs e)
         {
-            ChannelNetworkWindow window = new RF_GateServer.ChannelNetworkWindow();
+            ChannelNetworkWindow window = new ChannelNetworkWindow();
             window.ShowDialog();
         }
 

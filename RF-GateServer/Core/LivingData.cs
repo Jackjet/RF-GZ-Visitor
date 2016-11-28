@@ -19,7 +19,7 @@ namespace RF_GateServer.Core
 
         public string CommunityId { get; set; }
 
-        public string IP { get; set; }
+        public string Ip { get; set; }
 
         public string DateTime { get; set; }
 

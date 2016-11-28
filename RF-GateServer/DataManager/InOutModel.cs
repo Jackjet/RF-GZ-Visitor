@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RF_GateServer.DataManager
 {
-    class ChannelDisconnectModel
+    class InOutModel
     {
         public string Name { get; set; }
 
@@ -14,8 +14,12 @@ namespace RF_GateServer.DataManager
 
         public string ChannelType { get; set; }
 
-        public DateTime DisconnectTime { get; set; }
+        public string QRCode { get; set; }
 
-        public DateTime? ConnectTime { get; set; }
+        public string Status { get; set; }
+
+        public string ElapseTime { get; set; }
+
+        public DateTime CheckTime { get; set; }
     }
 }

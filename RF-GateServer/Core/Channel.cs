@@ -1,5 +1,6 @@
 ﻿using Common;
 using Common.NotifyBase;
+using RF_GateServer.Core.WebAPI;
 using RF_GateServer.DataManager;
 using RF_GateServer.Gate;
 using System;
@@ -16,8 +17,8 @@ namespace RF_GateServer.Core
     /// </summary>
     public class Channel : PropertyNotifyObject
     {
-        private const int InTypeNo = 1;
-        private const int OutTypeNo = 2;
+        private const string ChannelIn = "1";
+        private const string ChannelOut = "2";
 
         public Channel()
         {
@@ -157,25 +158,50 @@ namespace RF_GateServer.Core
                 CommunicateOutState = ChannelState.State_Stop;
         }
 
-        public void CheckIn(string qrcode)
+        public void VerifyIn(string qrcode)
         {
-            var data = GetLivingData(this.InIp, qrcode, 1, 123);
-            ComServerController.Current.AddLivingData(data);
-            Gate.In();
+            var elapseTime = 0;
+            var status = 0;
+            var verfiy = HttpMethod.Get(qrcode, CommunityId, ItemId, ChannelIn, out elapseTime);
+            status = verfiy.status == 200 ? 1 : 0;
+
+            var livingRecord = GetLivingData(this.InIp, qrcode, status, elapseTime);
+            ComServerController.Current.AddLivingData(livingRecord);
+
+            var inoutRecord = GetInOutData(InIp, qrcode, "入", status, elapseTime);
+            SQLite.Current.InOut(inoutRecord);
+
+            if (status == 1)
+            {
+                Gate.In();
+            }
         }
 
-        public void CheckOut(string qrcode)
+        public void VerifyOut(string qrcode)
         {
-            var data = GetLivingData(this.OutIp, qrcode, 0, 456);
-            ComServerController.Current.AddLivingData(data);
-            Gate.Out();
+            var elapseTime = 0;
+            var status = 0;
+
+            var verfiy = HttpMethod.Get(qrcode, CommunityId, ItemId, ChannelIn, out elapseTime);
+            status = verfiy.status == 200 ? 1 : 0;
+
+            var livingRecord = GetLivingData(this.OutIp, qrcode, status, elapseTime);
+            ComServerController.Current.AddLivingData(livingRecord);
+
+            var inoutRecord = GetInOutData(OutIp, qrcode, "出", status, elapseTime);
+            SQLite.Current.InOut(inoutRecord);
+
+            if (status == 1)
+            {
+                Gate.Out();
+            }
         }
 
         public void ChangeInState()
         {
             if (CommunicateInState == ChannelState.State_Error)
             {
-                SQLite.Current.ChannelConnect( InIp);
+                SQLite.Current.Connect(InIp);
             }
             InLastTime = DateTime.Now;
             CommunicateInState = ChannelState.State_Ok;
@@ -185,7 +211,7 @@ namespace RF_GateServer.Core
         {
             if (CommunicateOutState == ChannelState.State_Error)
             {
-                SQLite.Current.ChannelConnect(OutIp);
+                SQLite.Current.Connect(OutIp);
             }
             OutLastTime = DateTime.Now;
             CommunicateOutState = ChannelState.State_Ok;
@@ -194,13 +220,13 @@ namespace RF_GateServer.Core
         private void SetInError()
         {
             CommunicateInState = ChannelState.State_Error;
-            SQLite.Current.ChannelDisconnect(Name, InIp, ChannelType.In);
+            SQLite.Current.Disconnect(Name, InIp, ChannelType.In);
         }
 
         private void SetOutError()
         {
             CommunicateOutState = ChannelState.State_Error;
-            SQLite.Current.ChannelDisconnect(Name, OutIp, ChannelType.Out);
+            SQLite.Current.Disconnect(Name, OutIp, ChannelType.Out);
         }
 
         public void CheckInState(int interval)
@@ -250,11 +276,26 @@ namespace RF_GateServer.Core
                 Name = this.Name,
                 ItemId = this.ItemId,
                 CommunityId = this.CommunityId,
-                IP = ip,
+                Ip = ip,
                 Status = status == 1 ? "授权" : "未授权",
                 Elapsed = elapsed.ToString(),
                 QRCode = qrcode,
                 DateTime = DateTime.Now.ToStandard()
+            };
+            return data;
+        }
+
+        private InOutModel GetInOutData(string ip, string qrcode, string type, int status, int elapsed)
+        {
+            InOutModel data = new InOutModel
+            {
+                Name = this.Name,
+                Ip = ip,
+                ChannelType = type,
+                Status = status == 1 ? "授权" : "未授权",
+                ElapseTime = elapsed.ToString(),
+                QRCode = qrcode,
+                CheckTime = DateTime.Now
             };
             return data;
         }

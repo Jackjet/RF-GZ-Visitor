@@ -75,14 +75,14 @@ namespace RF_GateServer.Core
             {
                 inchannel.ChangeInState();
                 if (e.IsQrcode)
-                    inchannel.CheckIn(qrcode);
+                    inchannel.VerifyIn(qrcode);
             }
             var outchannel = Channels.FirstOrDefault(s => s.OutIp == ip);
             if (outchannel != null)
             {
                 outchannel.ChangeOutState();
                 if (e.IsQrcode)
-                    outchannel.CheckOut(qrcode);
+                    outchannel.VerifyOut(qrcode);
             }
         }
 
