@@ -1,4 +1,5 @@
-﻿using RF_GateServer.DataManager;
+﻿using RF_GateServer.Core;
+using RF_GateServer.DataManager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace RF_GateServer
     /// <summary>
     /// 通道异常历史记录
     /// </summary>
-    public partial class ChannelNetworkWindow
+    public partial class ChannelNetworkWindow : Window
     {
         private int pageIndex = 1;
         private int pageSize = 30;
@@ -32,6 +33,13 @@ namespace RF_GateServer
 
         private void ChannelNetworkWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            cmbChannels.Items.Insert(0, "全部");
+            foreach (var channel in ComServerController.Current.Channels)
+            {
+                cmbChannels.Items.Add(channel.Name);
+            }
+            cmbChannels.SelectedIndex = 0;
+
             lbltotal.Content = "0";
             lblpage.Content = "0/0";
         }
@@ -51,7 +59,11 @@ namespace RF_GateServer
                 PageSize = pageSize
             };
 
-            var query = SQLite.Current.QueryState(txtIp.Text, page);
+            var channel = cmbChannels.SelectedItem.ToString();
+            if (channel == "全部")
+                channel = "";
+
+            var query = SQLite.Current.QueryState(channel, dtStart.Value, dtEnd.Value, page);
             dgHistory.ItemsSource = query;
 
             lbltotal.Content = page.TotalCount.ToString();

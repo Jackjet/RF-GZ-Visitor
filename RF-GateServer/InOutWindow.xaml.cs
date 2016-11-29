@@ -19,7 +19,7 @@ namespace RF_GateServer
     /// <summary>
     /// InOutWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class InOutWindow
+    public partial class InOutWindow : Window
     {
         private int pageIndex = 1;
         private int pageSize = 30;

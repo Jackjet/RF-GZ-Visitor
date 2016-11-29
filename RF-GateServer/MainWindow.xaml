@@ -6,17 +6,11 @@
         xmlns:local="clr-namespace:RF_GateServer"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Title="网络二维码控制软件"
-        Width="800"
-        Height="600"
+        Width="1024"
+        Height="768"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
     <Window.Resources>
-        <Style TargetType="Button">
-            <Setter Property="Width" Value="100" />
-            <Setter Property="Height" Value="26" />
-            <Setter Property="Margin" Value="5" />
-        </Style>
-
         <DataTemplate x:Key="Index">
             <Label HorizontalContentAlignment="Left"
                    VerticalContentAlignment="Center"
@@ -106,10 +100,11 @@
             </Menu>
         </StackPanel>
 
-        <TabControl Grid.Row="1" Margin="0,10,0,0">
-            <TabItem Controls:ControlsHelper.HeaderFontSize="18"
-                     Background="Red"
-                     Header="实时数据">
+        <TabControl Grid.Row="1"
+                    Style="{StaticResource HzTabControlCustom}">
+            <TabItem Width="120"
+                     Header="实时数据"
+                     Style="{StaticResource HzTabItemCustom}">
                 <DataGrid Name="dgLiving" ItemsSource="{Binding LivingDataCollection}">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Width="60"
@@ -148,7 +143,9 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
-            <TabItem Header="通道">
+            <TabItem Width="120"
+                     Header="通道"
+                     Style="{StaticResource HzTabItemCustom}">
                 <DataGrid Name="dgChannel"
                           ItemsSource="{Binding Channels}"
                           MouseDoubleClick="dgChannel_MouseDoubleClick">

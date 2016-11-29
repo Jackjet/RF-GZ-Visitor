@@ -15,7 +15,7 @@ namespace RF_GateServer.Core.WebAPI
 {
     class HttpMethod
     {
-        const string test = "?content={0}&community_id={1}&item_id={2}&type={3}";
+        const string url_param = "?content={0}&community_id={1}&item_id={2}&type={3}";
         const string URL = "/api/community/qrcode/check";
 
         private static string PreLinkUrl(string qrcode, string communityId, string itemId, string type)
@@ -40,19 +40,24 @@ namespace RF_GateServer.Core.WebAPI
         public static RFJsonResult Get(string qrcode, string communityId, string itemId, string type, out int elapseTime)
         {
             Stopwatch sw = Stopwatch.StartNew();
-            var json = "";
             var error = "";
             var url = ConfigProfile.Host + "?" + PreLinkUrl(qrcode, communityId, itemId, type);
             var result = new RFJsonResult();
-            json = Request(url, out error);
+            var responseStr = Request(url, out error);
             if (!error.IsEmpty())
             {
                 LogHelper.Info("调用API服务异常->" + error);
             }
             else
             {
-                JavaScriptSerializer serialize = new JavaScriptSerializer();
-                result = serialize.Deserialize<RFJsonResult>(json);
+                try
+                {
+                    JavaScriptSerializer serialize = new JavaScriptSerializer();
+                    result = serialize.Deserialize<RFJsonResult>(responseStr);
+                }
+                catch
+                {
+                }
             }
             sw.Stop();
             elapseTime = (int)sw.ElapsedMilliseconds;
@@ -61,18 +66,17 @@ namespace RF_GateServer.Core.WebAPI
 
         private static string Request(string url, out string error)
         {
-            var json = "";
+            var responseStr = "";
             error = "";
-            Stopwatch sw = Stopwatch.StartNew();
             WebRequest wr = WebRequest.Create(url);
             try
             {
                 var response = wr.GetResponse();
                 using (StreamReader sr = new StreamReader(response.GetResponseStream()))
                 {
-                    json = sr.ReadToEnd();
+                    responseStr = sr.ReadToEnd();
                 }
-                if (string.IsNullOrEmpty(json))
+                if (string.IsNullOrEmpty(responseStr))
                 {
                     error = "返回结果为空";
                 }
@@ -83,10 +87,8 @@ namespace RF_GateServer.Core.WebAPI
             }
             finally
             {
-                sw.Stop();
-                LogHelper.Info("call api->" + sw.ElapsedMilliseconds);
             }
-            return json;
+            return responseStr;
         }
     }
 }

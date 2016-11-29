@@ -142,16 +142,18 @@ namespace RF_GateServer.DataManager
             ExecuteNonQuery(sql, parms);
         }
 
-        public List<DisconnectModel> QueryState(string ip, PageQuery page)
+        public List<DisconnectModel> QueryState(string name, DateTime start, DateTime end, PageQuery page)
         {
             List<DisconnectModel> list = new List<DisconnectModel>();
             var sql = "SELECT * FROM " + disconnect_tableName + " WHERE 1=1 ";
             var sqlCount = "SELECT Count(*) FROM " + disconnect_tableName + " WHERE 1=1 ";
             var condition = "";
-            if (!ip.IsEmpty())
+            if (!name.IsEmpty())
             {
-                condition += "AND IP='" + ip + "'";
+                condition += "AND Name='" + name + "'";
             }
+            condition += string.Format(" AND DisconnectTime>='{0}' AND DisconnectTime <='{1}'", start.ToStandard(), end.ToStandard());
+
             sql += condition;
             sqlCount += condition;
 

@@ -1,14 +1,21 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:RF_GateServer">
+                    xmlns:System="clr-namespace:System;assembly=mscorlib"
+                    xmlns:local="clr-namespace:RF_GateServer"
+                    xmlns:thems="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro">
+
+    <FontFamily x:Key="DefaultFont">宋体</FontFamily>
+    <FontFamily x:Key="HeaderFontFamily">宋体</FontFamily>
+    <FontFamily x:Key="ContentFontFamily">宋体</FontFamily>
+
+    <System:Double x:Key="HeaderFontSize">12</System:Double>
+    <System:Double x:Key="WindowTitleFontSize">12</System:Double>
 
     <Style BasedOn="{StaticResource MetroDataGrid}" TargetType="DataGrid">
         <Setter Property="AutoGenerateColumns" Value="false" />
         <Setter Property="CanUserAddRows" Value="false" />
         <Setter Property="CanUserReorderColumns" Value="false" />
         <Setter Property="GridLinesVisibility" Value="None" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="BorderBrush" Value="Goldenrod" />
         <Setter Property="Background" Value="#fcfcfc" />
         <Setter Property="RowHeaderWidth" Value="0" />
         <Setter Property="SelectionMode" Value="Single" />
@@ -32,6 +39,123 @@
         <Setter Property="Width" Value="80" />
         <Setter Property="Height" Value="24" />
         <Setter Property="Margin" Value="5" />
+    </Style>
+
+    <Style TargetType="ComboBox">
+        <Setter Property="Width" Value="120" />
+        <Setter Property="Height" Value="24" />
+    </Style>
+
+
+    <Style x:Key="HzTabControlCustom" TargetType="TabControl">
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabControl}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid Background="{DynamicResource HzWhiteBrush2}">
+                            <Border Height="1"
+                                    VerticalAlignment="Bottom"
+                                    Background="#7e7e7e" />
+                            <TabPanel Margin="{Binding Tag,
+                                                       RelativeSource={RelativeSource TemplatedParent}}"
+                                      Panel.ZIndex="1"
+                                      KeyboardNavigation.TabIndex="1">
+                                <StackPanel Height="46"
+                                            IsItemsHost="true"
+                                            Orientation="Horizontal" />
+                            </TabPanel>
+                        </Grid>
+                        <ContentPresenter x:Name="PART_SelectedContentHost"
+                                          Grid.Row="1"
+                                          Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Stretch"
+                                          ContentSource="SelectedContent"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="HzTabItemCustom" TargetType="TabItem">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Padding" Value="20,8" />
+        <Setter Property="Margin" Value="2,0" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="BorderBrush" Value="#7e7e7e" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="#000000" />
+        <Setter Property="Foreground" Value="#f3f3f5" />
+        <Setter Property="thems:ControlsHelper.HeaderFontSize" Value="12" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabItem">
+                    <Grid>
+                        <Border x:Name="Border"
+                                HorizontalAlignment="Stretch"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <DockPanel.Resources>
+                                    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+                                </DockPanel.Resources>
+                                <ContentPresenter x:Name="ContentSite"
+                                                  Margin="{TemplateBinding Padding}"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  ContentSource="Header"
+                                                  DockPanel.Dock="Top"
+                                                  RecognizesAccessKey="True"
+                                                  TextElement.FontSize="{TemplateBinding thems:ControlsHelper.HeaderFontSize}"
+                                                  TextElement.FontStretch="{TemplateBinding thems:ControlsHelper.HeaderFontStretch}"
+                                                  TextElement.FontWeight="{TemplateBinding thems:ControlsHelper.HeaderFontWeight}"
+                                                  TextElement.Foreground="{TemplateBinding Foreground}" />
+                            </DockPanel>
+                        </Border>
+                        <Border x:Name="top"
+                                Height="2"
+                                VerticalAlignment="Top"
+                                Background="Transparent" />
+                        <Border x:Name="bottom"
+                                Height="1"
+                                Margin="1,0"
+                                VerticalAlignment="Bottom"
+                                Background="Transparent" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="#1c1d21" />
+                            <Setter TargetName="top" Property="Background" Value="#ea840b" />
+                            <Setter TargetName="bottom" Property="Background" Value="#1c1d21" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#FF3c444a" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="IsSelected" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="#FF1c1d21" />
+                            <Setter TargetName="top" Property="Background" Value="#ea840b" />
+                            <Setter TargetName="bottom" Property="Background" Value="#FF1c1d21" />
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>
