@@ -82,6 +82,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AboutWindow.xaml.cs">
+      <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ChannelNetworkWindow.xaml.cs">
       <DependentUpon>ChannelNetworkWindow.xaml</DependentUpon>
     </Compile>
@@ -107,6 +110,10 @@
       <DependentUpon>ServerConfigWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\ServerViewModel.cs" />
+    <Page Include="AboutWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ChannelNetworkWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -176,6 +183,7 @@
     <Content Include="dll\Common.dll" />
     <Content Include="dll\Iaspec.Net.Common.dll" />
     <Content Include="dll\System.Data.SQLite.dll" />
+    <Resource Include="obria.png" />
     <Resource Include="Images\settings.png" />
     <Resource Include="Images\exit.ico" />
     <Resource Include="Images\exit.png" />

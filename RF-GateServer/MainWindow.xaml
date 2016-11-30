@@ -18,27 +18,39 @@
         </DataTemplate>
 
         <DataTemplate x:Key="AreaName">
-            <Label VerticalContentAlignment="Center" Content="{Binding Area}" />
+            <Label HorizontalContentAlignment="Left"
+                   VerticalContentAlignment="Center"
+                   Content="{Binding Area}" />
         </DataTemplate>
 
         <DataTemplate x:Key="ChannelName">
-            <Label VerticalContentAlignment="Center" Content="{Binding Name}" />
+            <Label HorizontalContentAlignment="Left"
+                   VerticalContentAlignment="Center"
+                   Content="{Binding Name}" />
         </DataTemplate>
 
         <DataTemplate x:Key="ItemId">
-            <Label VerticalContentAlignment="Center" Content="{Binding ItemId}" />
+            <Label HorizontalContentAlignment="Left"
+                   VerticalContentAlignment="Center"
+                   Content="{Binding ItemId}" />
         </DataTemplate>
 
         <DataTemplate x:Key="CommunityId">
-            <Label VerticalContentAlignment="Center" Content="{Binding CommunityId}" />
+            <Label HorizontalContentAlignment="Left"
+                   VerticalContentAlignment="Center"
+                   Content="{Binding CommunityId}" />
         </DataTemplate>
 
         <DataTemplate x:Key="GateIp">
-            <Label VerticalContentAlignment="Center" Content="{Binding GateIp}" />
+            <Label HorizontalContentAlignment="Left"
+                   VerticalContentAlignment="Center"
+                   Content="{Binding GateIp}" />
         </DataTemplate>
 
         <DataTemplate x:Key="InIp">
-            <Label VerticalContentAlignment="Center" Content="{Binding InIp}" />
+            <Label HorizontalContentAlignment="Left"
+                   VerticalContentAlignment="Center"
+                   Content="{Binding InIp}" />
         </DataTemplate>
 
         <DataTemplate x:Key="InLastTime">
@@ -46,7 +58,9 @@
         </DataTemplate>
 
         <DataTemplate x:Key="InState">
-            <Label VerticalContentAlignment="Center" Content="{Binding CommunicateInState}" />
+            <Label HorizontalContentAlignment="Left"
+                   VerticalContentAlignment="Center"
+                   Content="{Binding CommunicateInState}" />
         </DataTemplate>
 
         <DataTemplate x:Key="OutIp">
@@ -58,24 +72,35 @@
         </DataTemplate>
 
         <DataTemplate x:Key="OutState">
-            <Label VerticalAlignment="Center" Content="{Binding CommunicateOutState}" />
+            <Label VerticalAlignment="Center"
+                   HorizontalContentAlignment="Left"
+                   Content="{Binding CommunicateOutState}" />
         </DataTemplate>
-
 
         <DataTemplate x:Key="IP">
-            <Label VerticalContentAlignment="Center" Content="{Binding IP}" />
+            <Label HorizontalContentAlignment="Left"
+                   VerticalContentAlignment="Center"
+                   Content="{Binding IP}" />
         </DataTemplate>
         <DataTemplate x:Key="DateTime">
-            <Label VerticalContentAlignment="Center" Content="{Binding DateTime}" />
+            <Label HorizontalContentAlignment="Left"
+                   VerticalContentAlignment="Center"
+                   Content="{Binding DateTime}" />
         </DataTemplate>
         <DataTemplate x:Key="Elapsed">
-            <Label VerticalContentAlignment="Center" Content="{Binding Elapsed}" />
+            <Label HorizontalContentAlignment="Left"
+                   VerticalContentAlignment="Center"
+                   Content="{Binding Elapsed}" />
         </DataTemplate>
         <DataTemplate x:Key="Status">
-            <Label VerticalContentAlignment="Center" Content="{Binding Status}" />
+            <Label HorizontalContentAlignment="Left"
+                   VerticalContentAlignment="Center"
+                   Content="{Binding Status}" />
         </DataTemplate>
         <DataTemplate x:Key="QRCode">
-            <Label VerticalContentAlignment="Center" Content="{Binding QRCode}" />
+            <Label HorizontalContentAlignment="Left"
+                   VerticalContentAlignment="Center"
+                   Content="{Binding QRCode}" />
         </DataTemplate>
 
     </Window.Resources>
@@ -86,109 +111,117 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <Menu>
+            <Menu FontSize="12">
                 <MenuItem Header="操    作">
                     <MenuItem Click="btnInOut_click" Header="入出记录" />
-                    <MenuItem Click="btnConnectReader_click" Header="网络异常历史" />
+                    <MenuItem Click="btnConnectReader_click" Header="网络异常记录" />
+                    <Separator />
                     <MenuItem Click="btnAddChannel_click" Header="添加通道" />
                     <MenuItem Click="btnDeleteChannel_click" Header="删除通道" />
+                    <Separator />
                     <MenuItem Name="miService"
                               Click="btnStopServer_click"
                               Header="停止服务" />
                 </MenuItem>
-                <MenuItem Click="btnExit_click" Header="退    出" />
+                <MenuItem Header="帮    助">
+                    <MenuItem Click="btnAbout_click" Header="关    于" />
+                    <MenuItem Click="btnExit_click" Header="退    出" />
+                </MenuItem>
             </Menu>
         </StackPanel>
 
-        <TabControl Grid.Row="1"
-                    Style="{StaticResource HzTabControlCustom}">
+        <TabControl Grid.Row="1" Style="{StaticResource HzTabControlCustom}">
             <TabItem Width="120"
                      Header="实时数据"
                      Style="{StaticResource HzTabItemCustom}">
-                <DataGrid Name="dgLiving" ItemsSource="{Binding LivingDataCollection}">
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn Width="60"
-                                                CellTemplate="{StaticResource Index}"
-                                                Header="序号" />
-                        <DataGridTemplateColumn Width="100"
-                                                CellTemplate="{StaticResource AreaName}"
-                                                Header="区域" />
-                        <DataGridTemplateColumn Width="150"
-                                                CellTemplate="{StaticResource ChannelName}"
-                                                Header="通道" />
-                        <DataGridTemplateColumn Width="120"
-                                                CellTemplate="{StaticResource CommunityId}"
-                                                Header="社区Id" />
-                        <DataGridTemplateColumn Width="80"
-                                                CellTemplate="{StaticResource ItemId}"
-                                                Header="通道Id" />
-                        <DataGridTemplateColumn Width="150"
-                                                CellTemplate="{StaticResource IP}"
-                                                Header="IP" />
-                        <DataGridTemplateColumn Width="130"
-                                                CellTemplate="{StaticResource DateTime}"
-                                                Header="时间" />
+                <Border Margin="2,5" Padding="5">
+                    <DataGrid Name="dgLiving" ItemsSource="{Binding LivingDataCollection}">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Width="60"
+                                                    CellTemplate="{StaticResource Index}"
+                                                    Header="序号" />
+                            <DataGridTemplateColumn Width="100"
+                                                    CellTemplate="{StaticResource AreaName}"
+                                                    Header="区域" />
+                            <DataGridTemplateColumn Width="150"
+                                                    CellTemplate="{StaticResource ChannelName}"
+                                                    Header="通道" />
+                            <DataGridTemplateColumn Width="120"
+                                                    CellTemplate="{StaticResource CommunityId}"
+                                                    Header="社区Id" />
+                            <DataGridTemplateColumn Width="80"
+                                                    CellTemplate="{StaticResource ItemId}"
+                                                    Header="通道Id" />
+                            <DataGridTemplateColumn Width="150"
+                                                    CellTemplate="{StaticResource IP}"
+                                                    Header="IP" />
+                            <DataGridTemplateColumn Width="130"
+                                                    CellTemplate="{StaticResource DateTime}"
+                                                    Header="时间" />
 
-                        <DataGridTemplateColumn Width="100"
-                                                CellTemplate="{StaticResource Elapsed}"
-                                                Header="耗时" />
+                            <DataGridTemplateColumn Width="100"
+                                                    CellTemplate="{StaticResource Elapsed}"
+                                                    Header="耗时" />
 
-                        <DataGridTemplateColumn Width="100"
-                                                CellTemplate="{StaticResource Status}"
-                                                Header="授权" />
+                            <DataGridTemplateColumn Width="100"
+                                                    CellTemplate="{StaticResource Status}"
+                                                    Header="授权" />
 
-                        <DataGridTemplateColumn Width="*"
-                                                CellTemplate="{StaticResource QRCode}"
-                                                Header="二维码" />
-                    </DataGrid.Columns>
-                </DataGrid>
+                            <DataGridTemplateColumn Width="*"
+                                                    CellTemplate="{StaticResource QRCode}"
+                                                    Header="二维码" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Border>
             </TabItem>
             <TabItem Width="120"
                      Header="通道"
                      Style="{StaticResource HzTabItemCustom}">
-                <DataGrid Name="dgChannel"
-                          ItemsSource="{Binding Channels}"
-                          MouseDoubleClick="dgChannel_MouseDoubleClick">
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn Width="60"
-                                                CellTemplate="{StaticResource Index}"
-                                                Header="序号" />
-                        <DataGridTemplateColumn Width="100"
-                                                CellTemplate="{StaticResource AreaName}"
-                                                Header="区域" />
-                        <DataGridTemplateColumn Width="150"
-                                                CellTemplate="{StaticResource ChannelName}"
-                                                Header="通道" />
-                        <DataGridTemplateColumn Width="120"
-                                                CellTemplate="{StaticResource CommunityId}"
-                                                Header="社区Id" />
-                        <DataGridTemplateColumn Width="80"
-                                                CellTemplate="{StaticResource ItemId}"
-                                                Header="通道Id" />
-                        <DataGridTemplateColumn Width="150"
-                                                CellTemplate="{StaticResource GateIp}"
-                                                Header="网络继电器IP" />
-                        <DataGridTemplateColumn Width="150"
-                                                CellTemplate="{StaticResource InIp}"
-                                                Header="(入)IP" />
-                        <DataGridTemplateColumn Width="130"
-                                                CellTemplate="{StaticResource InLastTime}"
-                                                Header="(入)最近通信时间" />
-                        <DataGridTemplateColumn Width="130"
-                                                CellTemplate="{StaticResource InState}"
-                                                Header="(入)通讯状态" />
+                <Border Margin="2,5" Padding="5">
+                    <DataGrid Name="dgChannel"
+                              ItemsSource="{Binding Channels}"
+                              MouseDoubleClick="dgChannel_MouseDoubleClick">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Width="60"
+                                                    CellTemplate="{StaticResource Index}"
+                                                    Header="序号" />
+                            <DataGridTemplateColumn Width="100"
+                                                    CellTemplate="{StaticResource AreaName}"
+                                                    Header="区域" />
+                            <DataGridTemplateColumn Width="150"
+                                                    CellTemplate="{StaticResource ChannelName}"
+                                                    Header="通道" />
+                            <DataGridTemplateColumn Width="120"
+                                                    CellTemplate="{StaticResource CommunityId}"
+                                                    Header="社区Id" />
+                            <DataGridTemplateColumn Width="80"
+                                                    CellTemplate="{StaticResource ItemId}"
+                                                    Header="通道Id" />
+                            <DataGridTemplateColumn Width="150"
+                                                    CellTemplate="{StaticResource GateIp}"
+                                                    Header="网络继电器IP" />
+                            <DataGridTemplateColumn Width="150"
+                                                    CellTemplate="{StaticResource InIp}"
+                                                    Header="(入)IP" />
+                            <DataGridTemplateColumn Width="130"
+                                                    CellTemplate="{StaticResource InLastTime}"
+                                                    Header="(入)最近通信时间" />
+                            <DataGridTemplateColumn Width="130"
+                                                    CellTemplate="{StaticResource InState}"
+                                                    Header="(入)通讯状态" />
 
-                        <DataGridTemplateColumn Width="150"
-                                                CellTemplate="{StaticResource OutIp}"
-                                                Header="(出)IP" />
-                        <DataGridTemplateColumn Width="130"
-                                                CellTemplate="{StaticResource OutLastTime}"
-                                                Header="(出)最近通讯时间" />
-                        <DataGridTemplateColumn Width="130"
-                                                CellTemplate="{StaticResource OutState}"
-                                                Header="(出)通讯状态" />
-                    </DataGrid.Columns>
-                </DataGrid>
+                            <DataGridTemplateColumn Width="150"
+                                                    CellTemplate="{StaticResource OutIp}"
+                                                    Header="(出)IP" />
+                            <DataGridTemplateColumn Width="130"
+                                                    CellTemplate="{StaticResource OutLastTime}"
+                                                    Header="(出)最近通讯时间" />
+                            <DataGridTemplateColumn Width="130"
+                                                    CellTemplate="{StaticResource OutState}"
+                                                    Header="(出)通讯状态" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Border>
             </TabItem>
         </TabControl>
     </Grid>

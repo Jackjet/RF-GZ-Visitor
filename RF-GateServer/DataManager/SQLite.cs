@@ -267,6 +267,7 @@ namespace RF_GateServer.DataManager
                 catch (Exception ex)
                 {
                     LogHelper.Info("执行sql失败->" + sql);
+                    LogHelper.Info("执行错误信息->" + ex.Message);
                     return -1;
                 }
             }

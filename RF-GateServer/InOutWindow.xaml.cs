@@ -23,7 +23,7 @@ namespace RF_GateServer
     {
         private int pageIndex = 1;
         private int pageSize = 30;
-        private int totalPageCount = 0;
+        private int totalPage = 0;
 
         public InOutWindow()
         {
@@ -45,7 +45,7 @@ namespace RF_GateServer
             dtEnd.Value = DateTime.Now.Date.AddDays(1).AddSeconds(-1);
 
             lbltotal.Content = "0";
-            lblpage.Content = "0/0";
+            lblpage.Content = "1/1";
         }
 
         private void btnSearch_click(object sender, RoutedEventArgs e)
@@ -70,10 +70,13 @@ namespace RF_GateServer
             dgHistory.ItemsSource = query;
 
             lbltotal.Content = page.TotalCount.ToString();
-            totalPageCount = totalCount / pageSize;
+            totalPage = totalCount / pageSize;
             if (totalCount % pageSize != 0)
-                totalPageCount++;
-            lblpage.Content = string.Format("{0}/{1}", pageIndex, totalPageCount);
+                totalPage++;
+
+            if (page.TotalCount == 0)
+                totalPage = 1;
+            lblpage.Content = string.Format("{0}/{1}", pageIndex, totalPage);
         }
 
         private void btnPre_click(object sender, RoutedEventArgs e)
@@ -87,8 +90,8 @@ namespace RF_GateServer
         private void btnNext_click(object sender, RoutedEventArgs e)
         {
             pageIndex++;
-            if (pageIndex > totalPageCount)
-                pageIndex = totalPageCount;
+            if (pageIndex > totalPage)
+                pageIndex = totalPage;
             Query();
         }
     }

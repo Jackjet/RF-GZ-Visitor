@@ -136,6 +136,11 @@ namespace RF_GateServer
             }
         }
 
+        private void btnAbout_click(object sender, RoutedEventArgs e)
+        {
+            new AboutWindow().ShowDialog();
+        }
+
         private void btnExit_click(object sender, RoutedEventArgs e)
         {
             this.Close();

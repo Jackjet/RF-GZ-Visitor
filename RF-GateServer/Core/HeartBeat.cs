@@ -9,18 +9,23 @@ using System.Threading.Tasks;
 
 namespace RF_GateServer.Core
 {
+    /// <summary>
+    /// 心跳包检测
+    /// </summary>
     class HeartBeat
     {
         private bool isRunning = false;
         private Thread workThread = null;
 
-        private const int check_Interval = 10 * 1000;
-        private const int heartbeat_Interval = 5 * 1000;
+        private static int check_Interval = 0;
+        private static int heartbeat_Interval = 0;
 
         private static HeartBeat _current = new HeartBeat();
 
         private HeartBeat()
         {
+            check_Interval = ConfigProfile.checkInterval * 1000;
+            heartbeat_Interval = ConfigProfile.heartBeatInterval * 1000;
         }
 
         public static HeartBeat Current

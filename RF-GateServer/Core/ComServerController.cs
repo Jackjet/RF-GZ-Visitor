@@ -51,7 +51,6 @@ namespace RF_GateServer.Core
         public void Run()
         {
             Channels = MapReader.Read();
-
             foreach (var channel in Channels)
             {
                 channel.SetGate(new MegviiGate(channel.GateIp));
